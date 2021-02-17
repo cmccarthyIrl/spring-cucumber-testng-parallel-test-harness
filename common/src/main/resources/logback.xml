@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="USER_HOME" value="logs"/>
+
+    <appender name="FILE-THREAD" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>logFileName</key>
+            <defaultValue>Boot</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="FILE-${logFileName}" class="ch.qos.logback.core.FileAppender">
+                <file>${USER_HOME}/${logFileName}.log</file>
+                <append>false</append>
+                <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                    <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %level %logger{35} - %msg%n</Pattern>
+                </encoder>
+            </appender>
+        </sift>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>[%thread] %highlight(%-5level) %cyan(%logger{15}) - %msg %n</Pattern>
+        </layout>
+    </appender>
+
+    <logger name="com.cmccarthy" level="info" additivity="false">
+        <appender-ref ref="FILE-THREAD"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

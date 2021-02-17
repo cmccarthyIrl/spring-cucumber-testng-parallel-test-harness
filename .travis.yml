@@ -1,0 +1,20 @@
+sudo: false
+
+os: linux
+
+dist: xenial
+
+addons:
+  firefox: latest
+
+language: java
+
+cache:
+  directories:
+    - $HOME/.m2
+
+jobs:
+  include:
+    - stage: test
+      script: mvn clean install -fae
+
