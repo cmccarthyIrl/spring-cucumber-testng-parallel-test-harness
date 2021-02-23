@@ -14,10 +14,6 @@ public class StepDefinitionDataManager {
         return storedObjectMap.get();
     }
 
-    public void setStoredObjectMap(Map<String, Object> newStoredObjectMap) {
-        storedObjectMap.set(newStoredObjectMap);
-    }
-
     public void addToStoredObjectMap(String value, Object object) {
         final Map<String, Object> tempObjectMap;
         if (getStoredObjectMap() == null) {
@@ -27,6 +23,7 @@ public class StepDefinitionDataManager {
             tempObjectMap.remove(value);
         }
         tempObjectMap.put(value, object);
+        storedObjectMap.set(tempObjectMap);
     }
 }
 
