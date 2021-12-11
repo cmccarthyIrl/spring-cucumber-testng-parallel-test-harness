@@ -7,9 +7,12 @@ import com.codeborne.selenide.WebDriverRunner;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@CucumberContextConfiguration
 public class Hooks extends WikipediaAbstractTestDefinition {
+
     @Autowired
     private HookUtil hookUtil;
     @Autowired
