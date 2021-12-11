@@ -29,6 +29,7 @@
                     <includes>
                         <include>**/extent.properties</include>
                         <include>**/logback.xml</include>
+                        <include>**/allure.properties</include>
                     </includes>
                 </configuration>
             </plugin>

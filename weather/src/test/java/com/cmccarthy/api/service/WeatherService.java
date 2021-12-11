@@ -34,7 +34,7 @@ public class WeatherService {
                 .get(applicationProperties.getWeatherAppUrl());
 
         managedResponses.put("class", response.as(LocationWeatherRootResponse.class));
-        stepDefinitionDataManager.addToStoredObjectMap("class",managedResponses);
+        stepDefinitionDataManager.addToStoredObjectMap("class", managedResponses);
 
         if (response.statusCode() != HttpURLConnection.HTTP_OK) {
             log.info("Could not retrieve the weather forecast from the Response");
