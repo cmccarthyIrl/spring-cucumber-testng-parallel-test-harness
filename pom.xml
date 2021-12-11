@@ -49,7 +49,7 @@
         <cucumber.version>6.2.2</cucumber.version>
         <assertj-core.version>3.21.0</assertj-core.version>
         <java.version>11</java.version>
-        <selenium-version>4.0.0</selenium-version>
+        <selenium-version>3.8.1</selenium-version>
         <selenide-version>6.1.1</selenide-version>
         <restassured.version>3.0.0</restassured.version>
         <surfire.plugin.version>2.22.2</surfire.plugin.version>
@@ -106,13 +106,11 @@
             <artifactId>extentreports-cucumber6-adapter</artifactId>
             <version>${extentreports.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber6-jvm</artifactId>
             <version>${allure.version}</version>
         </dependency>
-
 
         <!--spring dependencies-->
         <dependency>
@@ -155,7 +153,6 @@
             <version>r938</version>
         </dependency>
     </dependencies>
-
     <build>
         <resources>
             <resource>
@@ -163,7 +160,6 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -210,7 +206,6 @@
                         </dependency>
                     </dependencies>
                 </plugin>
-
                 <plugin>
                     <groupId>io.qameta.allure</groupId>
                     <artifactId>allure-maven</artifactId>
@@ -220,7 +215,6 @@
                         <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
                     </configuration>
                 </plugin>
-
             </plugins>
         </pluginManagement>
     </build>

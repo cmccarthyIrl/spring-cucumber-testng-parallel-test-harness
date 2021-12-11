@@ -122,7 +122,7 @@ Selenium `<dependencies>`:
 # Quickstart
 
 - [Intellij IDE](https://www.jetbrains.com/idea/) - `Recommended`
-- [Java JDK 8](https://www.oracle.com/ie/java/technologies/javase/javase-jdk8-downloads.html)
+- [Java JDK 11](https://jdk.java.net/java-se-ri/11)
 - [Apache Maven 3.6.3](https://maven.apache.org/docs/3.6.3/release-notes.html)
 
 # TestNG
@@ -306,16 +306,16 @@ The Framework uses [Log4j2](https://logging.apache.org/log4j/2.x/) You can insta
 like so
 
 ```java
-        private final Logger logger=LoggerFactory.getLogger(WikipediaPageSteps.class);
+private final Logger logger=LoggerFactory.getLogger(WikipediaPageSteps.class);
 ```
 
 you can then use the logger like so :
 
 ```java
-        logger.info("This is a info message");
-        logger.warn("This is a warning message");
-        logger.debug("This is a info message");
-        logger.error("This is a error message");
+logger.info("This is a info message");
+logger.warn("This is a warning message");
+logger.debug("This is a info message");
+logger.error("This is a error message");
 ```
 
 # Before / After Hooks
@@ -340,7 +340,6 @@ public class Hooks {
 [Rest Assured IO](https://rest-assured.io/) is used to map the `Response` Objects to their respective `POJO` Classes
 
 ```xml
-
 <dependency>
     <groupId>io.rest-assured</groupId>
     <artifactId>rest-assured</artifactId>
