@@ -4,8 +4,10 @@ import com.cmccarthy.api.config.WeatherAbstractTestDefinition;
 import com.cmccarthy.api.model.response.LocationWeatherRootResponse;
 import com.cmccarthy.api.service.WeatherService;
 import com.cmccarthy.common.service.StepDefinitionDataManager;
+import com.google.gson.Gson;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.restassured.response.Response;
 import org.assertj.core.api.SoftAssertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +24,8 @@ public class WeatherStep extends WeatherAbstractTestDefinition {
     @Then("^The weather for (.*) should be returned$")
     public void theWeatherForDublinShouldBeReturned(String location) {
         final SoftAssertions softAssertions = new SoftAssertions();
-        final LocationWeatherRootResponse locationWeatherRootResponse = (LocationWeatherRootResponse) stepDefinitionDataManager.getStoredObjectMap().get("class");
+        final LocationWeatherRootResponse locationWeatherRootResponse = new Gson().fromJson(((Response) stepDefinitionDataManager.getStoredObjectMap().get("class")).getBody().asString(), LocationWeatherRootResponse.class);
         log.info("Verifying the Response location : " + locationWeatherRootResponse.getName() + ", is equal to the expected location : " + location);
-
         softAssertions.assertThat(locationWeatherRootResponse.getName()).as("Expected the weather forecast to be for : " + location).withFailMessage("But it was for : " + locationWeatherRootResponse.getName()).isEqualToIgnoringCase(location);
         softAssertions.assertAll();
     }

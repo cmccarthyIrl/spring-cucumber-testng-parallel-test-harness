@@ -37,24 +37,25 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.1.RELEASE</version>
+        <version>2.3.4.RELEASE</version>
     </parent>
 
     <properties>
         <activeProfile>prod</activeProfile>
         <aspectj.version>1.9.1</aspectj.version>
         <allure.version>2.16.1</allure.version>
-        <cucumber.version>5.7.0</cucumber.version>
+        <commons.version>2.11.0</commons.version>
+        <extentreports.version>2.8.4</extentreports.version>
+        <cucumber.version>6.2.2</cucumber.version>
         <assertj-core.version>3.21.0</assertj-core.version>
         <java.version>11</java.version>
-        <selenium-version>3.8.1</selenium-version>
+        <selenium-version>4.0.0</selenium-version>
         <selenide-version>6.1.1</selenide-version>
         <restassured.version>3.0.0</restassured.version>
         <surfire.plugin.version>2.22.2</surfire.plugin.version>
         <compiler.plugin.version>3.8.1</compiler.plugin.version>
-        <spring-rabbit.version>1.7.3.RELEASE</spring-rabbit.version>
+        <spring-rabbit.version>2.3.9</spring-rabbit.version>
         <org.json.version>20160810</org.json.version>
-        <log4j.version>2.13.2</log4j.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -93,7 +94,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.7</version>
+            <version>${commons.version}</version>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
@@ -102,13 +103,13 @@
         </dependency>
         <dependency>
             <groupId>tech.grasshopper</groupId>
-            <artifactId>extentreports-cucumber5-adapter</artifactId>
-            <version>2.8.4</version>
+            <artifactId>extentreports-cucumber6-adapter</artifactId>
+            <version>${extentreports.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-cucumber5-jvm</artifactId>
+            <artifactId>allure-cucumber6-jvm</artifactId>
             <version>${allure.version}</version>
         </dependency>
 
@@ -196,8 +197,8 @@
                     <version>${surfire.plugin.version}</version>
                     <configuration>
                         <testFailureIgnore>false</testFailureIgnore>
+                        <encoding>${project.build.sourceEncoding}</encoding>
                         <argLine>
-                            -Dfile.encoding=UTF-8
                             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                         </argLine>
                     </configuration>
