@@ -9,8 +9,11 @@ import org.testng.annotations.DataProvider;
                 "src/test/resources/feature"
         },
         plugin = {
-                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
-        })
+                "io.qameta.allure.cucumber5jvm.AllureCucumber5Jvm",
+                "progress",
+                "summary"
+        }
+)
 public class WikipediaParallelRunnerTest extends AbstractTestNGCucumberTests {
 
     @Override

@@ -1,8 +1,8 @@
 package com.cmccarthy.ui.utils;
 
 import com.cmccarthy.common.utils.ApplicationProperties;
+import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -19,6 +19,8 @@ import org.springframework.stereotype.Component;
 import java.net.URL;
 import java.util.NoSuchElementException;
 
+import org.openqa.selenium.WebDriver;
+
 @Component
 public class DriverManager {
 
@@ -28,9 +30,11 @@ public class DriverManager {
     @Autowired
     private ApplicationProperties applicationProperties;
 
-    public void driverManager() {
+    public void createDriver() {
         if (getDriver() == null) {
             setLocalWebDriver();
+            WebDriverRunner.setWebDriver(getDriver());
+//            WebDriverRunner.getWebDriver().manage().deleteAllCookies();
         }
     }
 

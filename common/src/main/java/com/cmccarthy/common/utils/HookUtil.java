@@ -19,7 +19,7 @@ public class HookUtil {
                 String filename = scenario.getName().replaceAll("\\s+", "_");
                 final String featureError = scenario.getId().replaceAll("\\s+", "_").replaceAll(":", "_").split("\\.")[1];
                 filename = filename + "_" + featureError;
-                scenario.embed(filename.getBytes(StandardCharsets.UTF_8), "image/png", filename);
+                scenario.attach(filename.getBytes(StandardCharsets.UTF_8), "image/png", filename);
             }
         }
 
