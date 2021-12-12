@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 @CucumberContextConfiguration
 public class Hooks extends WikipediaAbstractTestDefinition {
 
+    private static boolean initialized = false;
+    private final Object lock = new Object();
+
     @Autowired
     private HookUtil hookUtil;
     @Autowired
@@ -20,6 +23,15 @@ public class Hooks extends WikipediaAbstractTestDefinition {
 
     @Before
     public void beforeScenario(Scenario scenario) {
+        synchronized (lock) {
+            System.out.println(" inside lock ");
+            if (!initialized) {
+                if (!driverManager.checkIfDriverExists()) {
+                    driverManager.downloadDriver();
+                }
+                initialized = true;
+            }
+        }
         driverManager.createDriver();
     }
 

@@ -6,7 +6,7 @@ import org.testng.annotations.DataProvider;
 
 @CucumberOptions(
         features = {
-                "src/test/resources/feature"
+                "src/test/resources/feature/WikipediaTest2.feature"
         },
         plugin = {
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
