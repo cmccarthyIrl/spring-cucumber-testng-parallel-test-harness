@@ -26,9 +26,6 @@ public class Hooks extends WikipediaAbstractTestDefinition {
     public void beforeScenario(Scenario scenario) {
         synchronized (lock) {
             if (!initialized) {
-                // ContextInitializer.CONFIG_FILE_PROPERTY is set to "logback.configurationFile"
-                System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, Constants.COMMON_RESOURCES + "/logback.xml");
-
                 if (!driverManager.isDriverExisting()) {
                     driverManager.downloadDriver();
                 }
