@@ -6,6 +6,7 @@ import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -15,20 +16,23 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 
 @Component
 public class DriverManager {
-
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private static final ThreadLocal<Wait<WebDriver>> driverWaitThreadLocal = new ThreadLocal<>();
-    private static WebDriver webDriver;
+    private final Logger log = LoggerFactory.getLogger(DriverManager.class);
     @Autowired
     private ApplicationProperties applicationProperties;
 
@@ -43,35 +47,36 @@ public class DriverManager {
     public void setLocalWebDriver() {
         switch (applicationProperties.getBrowser()) {
             case ("chrome"):
-                System.setProperty("webdriver.chrome.driver", Constants.DRIVER_DIRECTORY + "/chromedriver" + getOSExtension());
-                driverThreadLocal.set(new ChromeDriver());
+                System.setProperty("webdriver.chrome.driver", Constants.DRIVER_DIRECTORY + "/chromedriver" + getExtension());
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--disable-logging");
+                driverThreadLocal.set(new ChromeDriver(options));
                 break;
             case ("firefox"):
-                System.setProperty("webdriver.gecko.driver", Constants.DRIVER_DIRECTORY + "/geckodriver" + getOSExtension());
+                System.setProperty("webdriver.gecko.driver", Constants.DRIVER_DIRECTORY + "/geckodriver" + getExtension());
+                System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "/dev/null");
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.setCapability("marionette", true);
-                webDriver = new FirefoxDriver(firefoxOptions);
-                driverThreadLocal.set(webDriver);
+                driverThreadLocal.set(new FirefoxDriver(firefoxOptions));
                 break;
             case ("ie"):
-                System.setProperty("webdriver.ie.driver", Constants.DRIVER_DIRECTORY + "/IEDriverServer" + getOSExtension());
+                System.setProperty("webdriver.ie.driver", Constants.DRIVER_DIRECTORY + "/IEDriverServer" + getExtension());
                 DesiredCapabilities capabilitiesIE = DesiredCapabilities.internetExplorer();
                 capabilitiesIE.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
                 driverThreadLocal.set(new InternetExplorerDriver(capabilitiesIE));
                 break;
             case ("safari"):
-                System.setProperty("webdriver.opera.driver", Constants.DRIVER_DIRECTORY + "/operadriver" + getOSExtension());
+                System.setProperty("webdriver.opera.driver", Constants.DRIVER_DIRECTORY + "/operadriver" + getExtension());
                 driverThreadLocal.set(new OperaDriver());
                 break;
             case ("edge"):
-                System.setProperty("webdriver.edge.driver", Constants.DRIVER_DIRECTORY + "/MicrosoftWebDriver" + getOSExtension());
+                System.setProperty("webdriver.edge.driver", Constants.DRIVER_DIRECTORY + "/MicrosoftWebDriver" + getExtension());
                 driverThreadLocal.set(new EdgeDriver());
                 break;
             default:
                 throw new NoSuchElementException("Failed to create an instance of WebDriver for: " + applicationProperties.getBrowser());
         }
         driverWaitThreadLocal.set(new WebDriverWait(driverThreadLocal.get(), 10, 500));
-
     }
 
     private void setRemoteDriver(URL hubUrl) {
@@ -111,24 +116,29 @@ public class DriverManager {
         return driverWaitThreadLocal.get();
     }
 
-    public boolean checkIfDriverExists() {
-        File geckoDriver = new File(Constants.DRIVER_DIRECTORY + "/geckodriver" + getOSExtension());
-        File chromedriver = new File(Constants.DRIVER_DIRECTORY + "/geckodriver" + getOSExtension());
+    public boolean isDriverExisting() {
+        File geckoDriver = new File(Constants.DRIVER_DIRECTORY + "/geckodriver" + getExtension());
+        File chromedriver = new File(Constants.DRIVER_DIRECTORY + "/chromedriver" + getExtension());
         return geckoDriver.exists() && chromedriver.exists();
     }
 
     public void downloadDriver() {
-        System.out.println(" inside download driver ");
         try {
             Process process;
             if (getOperatingSystem().equals("win")) {
                 process = Runtime.getRuntime().exec("cmd.exe /c downloadDriver.sh", null,
                         new File(Constants.COMMON_RESOURCES));
             } else {
-                String filePath = Constants.COMMON_RESOURCES+"/downloadDriver.sh";
-                process = Runtime.getRuntime().exec(new String[]{"/bin/bash", "-c", filePath}, null);
+                process = Runtime.getRuntime().exec(
+                        new String[]{"sh", "-c", Constants.COMMON_RESOURCES + "/downloadDriver.sh"});
             }
             process.waitFor();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line = reader.readLine();
+            while (line != null) {
+                log.debug(line);
+                line = reader.readLine();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -145,10 +155,10 @@ public class DriverManager {
         }
     }
 
-    private String getOSExtension() {
+    private String getExtension() {
         String extension = "";
         if (getOperatingSystem().contains("win")) {
-            return ".exe.";
+            return ".exe";
         }
         return extension;
     }

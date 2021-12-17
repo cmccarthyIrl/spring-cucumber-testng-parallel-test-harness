@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -x
+export SCRIPT_DIR=../common/src/main/resources
+cd $SCRIPT_DIR
+
 ROOT_DIR=$(pwd)
 TEST_RESOURCES=$ROOT_DIR
 FILE_EXTENSION=""
@@ -21,6 +25,7 @@ if [ ! -f "$TEST_RESOURCES/drivers/chromedriver"$FILE_EXTENSION ]; then
     unzip driver.zip &&
     cd driver/$OS &&
     cp "chromedriver$FILE_EXTENSION" "$TEST_RESOURCES/drivers" &&
+    chmod +700 "$TEST_RESOURCES/drivers/chromedriver"$FILE_EXTENSION &&
     cd ../../../ &&
     rm -rf temp &&
     cd $ROOT_DIR
@@ -34,10 +39,11 @@ if [ ! -f "$TEST_RESOURCES/drivers/geckodriver"$FILE_EXTENSION ]; then
     unzip driver.zip &&
     cd driver/$OS &&
     cp "geckodriver$FILE_EXTENSION" "$TEST_RESOURCES/drivers" &&
+    chmod +700 "$TEST_RESOURCES/drivers/geckodriver"$FILE_EXTENSION &&
     cd ../../../ &&
     rm -rf temp &&
     cd $ROOT_DIR
 fi
 
 #uncomment to keep bash open
-! /bin/bash
+#! /bin/bash

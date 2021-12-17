@@ -1,5 +1,7 @@
 package com.cmccarthy.ui.step;
 
+import ch.qos.logback.classic.util.ContextInitializer;
+import com.cmccarthy.common.utils.Constants;
 import com.cmccarthy.common.utils.HookUtil;
 import com.cmccarthy.ui.config.WikipediaAbstractTestDefinition;
 import com.cmccarthy.ui.utils.DriverManager;
@@ -13,9 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @CucumberContextConfiguration
 public class Hooks extends WikipediaAbstractTestDefinition {
 
+    private static final Object lock = new Object();
     private static boolean initialized = false;
-    private final Object lock = new Object();
-
     @Autowired
     private HookUtil hookUtil;
     @Autowired
@@ -24,9 +25,11 @@ public class Hooks extends WikipediaAbstractTestDefinition {
     @Before
     public void beforeScenario(Scenario scenario) {
         synchronized (lock) {
-            System.out.println(" inside lock ");
             if (!initialized) {
-                if (!driverManager.checkIfDriverExists()) {
+                // ContextInitializer.CONFIG_FILE_PROPERTY is set to "logback.configurationFile"
+                System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, Constants.COMMON_RESOURCES + "/logback.xml");
+
+                if (!driverManager.isDriverExisting()) {
                     driverManager.downloadDriver();
                 }
                 initialized = true;

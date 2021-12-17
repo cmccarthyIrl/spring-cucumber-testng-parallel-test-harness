@@ -1,6 +1,5 @@
 package com.cmccarthy.api.service;
 
-import com.cmccarthy.api.model.response.LocationWeatherRootResponse;
 import com.cmccarthy.common.service.RestService;
 import com.cmccarthy.common.service.StepDefinitionDataManager;
 import com.cmccarthy.common.utils.ApplicationProperties;
@@ -9,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.net.HttpURLConnection;
 import java.util.NoSuchElementException;
 
