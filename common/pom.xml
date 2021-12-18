@@ -30,6 +30,7 @@
                         <include>**/extent.properties</include>
                         <include>**/logback.xml</include>
                         <include>**/allure.properties</include>
+                        <include>**/extent.xml</include>
                     </includes>
                 </configuration>
             </plugin>

@@ -23,12 +23,8 @@ public class WikipediaHomePage extends AbstractPage {
         openAt(url);
     }
 
-    public boolean isPageOpened() throws NoSuchFieldException {
-        return waitForElementPresent(CENTRAL_LOGO);
-    }
-
-    public void getCommonPage() {
-        COMMONS_LOGO.click();
+    public WebElement getCommonPage() {
+        return COMMONS_LOGO;
     }
 }
 

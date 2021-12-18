@@ -10,14 +10,14 @@ import org.openqa.selenium.support.How;
 public class WikipediaCommonPage extends AbstractPage {
 
     @FindBy(how = How.CLASS_NAME, using = "mainpage-welcome-sitename")
-    private WebElement CENTRAL_LOGO;
+    private WebElement centralLogo;
 
     public WikipediaCommonPage(DriverManager driverManager) {
         super(driverManager);
     }
 
-    public boolean isPageOpened() throws NoSuchFieldException {
-        return waitForElementPresent(CENTRAL_LOGO);
+    public WebElement getCentralLogo() {
+        return centralLogo;
     }
 }
 

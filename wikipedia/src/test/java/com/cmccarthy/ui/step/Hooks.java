@@ -1,7 +1,5 @@
 package com.cmccarthy.ui.step;
 
-import ch.qos.logback.classic.util.ContextInitializer;
-import com.cmccarthy.common.utils.Constants;
 import com.cmccarthy.common.utils.HookUtil;
 import com.cmccarthy.ui.config.WikipediaAbstractTestDefinition;
 import com.cmccarthy.ui.utils.DriverManager;

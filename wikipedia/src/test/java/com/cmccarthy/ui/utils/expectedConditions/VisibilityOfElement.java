@@ -1,4 +1,4 @@
-package com.cmccarthy.ui.utils;
+package com.cmccarthy.ui.utils.expectedConditions;
 
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
@@ -7,11 +7,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
-public class InvisibilityOfElement implements ExpectedCondition<Boolean> {
+public class VisibilityOfElement implements ExpectedCondition<Boolean> {
 
     private final WebElement element;
 
-    public InvisibilityOfElement(WebElement element) {
+    public VisibilityOfElement(WebElement element) {
         this.element = element;
     }
 
@@ -20,7 +20,7 @@ public class InvisibilityOfElement implements ExpectedCondition<Boolean> {
         try {
             return element.isDisplayed();
         } catch (StaleElementReferenceException | NoSuchElementException | ElementNotVisibleException e) {
-            return true;
+            return false;
         } catch (Throwable t) {
             throw new Error(t);
         }

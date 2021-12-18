@@ -1,26 +1,26 @@
-package com.cmccarthy.ui.utils;
+package com.cmccarthy.ui.utils.expectedConditions;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
-public class VisibilityOfElement implements ExpectedCondition<Boolean> {
+public class InvisibilityOfElementByLocator implements ExpectedCondition<Boolean> {
 
-    private final WebElement element;
+    private final By locator;
 
-    public VisibilityOfElement(WebElement element) {
-        this.element = element;
+    public InvisibilityOfElementByLocator(By locator) {
+        this.locator = locator;
     }
 
     @Override
     public Boolean apply(WebDriver d) {
         try {
-            return element.isDisplayed();
+            return d.findElement(locator).isDisplayed();
         } catch (StaleElementReferenceException | NoSuchElementException | ElementNotVisibleException e) {
-            return false;
+            return true;
         } catch (Throwable t) {
             throw new Error(t);
         }

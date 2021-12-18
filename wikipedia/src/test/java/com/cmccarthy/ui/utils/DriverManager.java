@@ -4,6 +4,7 @@ import com.cmccarthy.common.utils.ApplicationProperties;
 import com.cmccarthy.common.utils.Constants;
 import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,7 +15,6 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,10 +31,14 @@ import java.util.NoSuchElementException;
 @Component
 public class DriverManager {
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
-    private static final ThreadLocal<Wait<WebDriver>> driverWaitThreadLocal = new ThreadLocal<>();
+
     private final Logger log = LoggerFactory.getLogger(DriverManager.class);
+
     @Autowired
     private ApplicationProperties applicationProperties;
+
+    @Autowired
+    private DriverWait driverWait;
 
     public void createDriver() {
         if (getDriver() == null) {
@@ -76,7 +80,7 @@ public class DriverManager {
             default:
                 throw new NoSuchElementException("Failed to create an instance of WebDriver for: " + applicationProperties.getBrowser());
         }
-        driverWaitThreadLocal.set(new WebDriverWait(driverThreadLocal.get(), 10, 500));
+        driverWait.getDriverWaitThreadLocal().set(new WebDriverWait(driverThreadLocal.get(), Constants.timeoutShort, Constants.pollingShort));
     }
 
     private void setRemoteDriver(URL hubUrl) {
@@ -105,15 +109,15 @@ public class DriverManager {
             default:
                 throw new NoSuchElementException("Failed to create an instance of RemoteWebDriver for: " + applicationProperties.getBrowser());
         }
-        driverWaitThreadLocal.set(new WebDriverWait(driverThreadLocal.get(), 10, 500));
+        driverWait.getDriverWaitThreadLocal().set(new WebDriverWait(driverThreadLocal.get(), Constants.timeoutShort, Constants.pollingShort));
     }
 
     public WebDriver getDriver() {
         return driverThreadLocal.get();
     }
 
-    public Wait<WebDriver> getDriverWait() {
-        return driverWaitThreadLocal.get();
+    public JavascriptExecutor getJSExecutor() {
+        return (JavascriptExecutor) getDriver();
     }
 
     public boolean isDriverExisting() {
