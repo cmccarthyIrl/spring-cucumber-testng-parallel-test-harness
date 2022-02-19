@@ -8,10 +8,4 @@
         </classes>
     </test>
 
-    <test name="Wikipedia-Suite-2">
-        <classes>
-            <class name="com.cmccarthy.ui.WikipediaRunnerTest"/>
-        </classes>
-    </test>
-
 </suite>

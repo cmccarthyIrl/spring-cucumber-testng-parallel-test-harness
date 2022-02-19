@@ -268,7 +268,7 @@ Master POM.
 You can then specify the profile to use when running Maven from the command line like so:
 
 ```
-mvn clean install -P dev
+mvn clean install -DactiveProfile=dev
 ```
 
 Below is an example of the `application.properties` file.

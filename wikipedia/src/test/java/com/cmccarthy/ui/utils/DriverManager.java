@@ -19,12 +19,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 
@@ -40,9 +43,16 @@ public class DriverManager {
     @Autowired
     private DriverWait driverWait;
 
-    public void createDriver() {
+    @Autowired
+    private Environment environment;
+
+    public void createDriver() throws MalformedURLException {
         if (getDriver() == null) {
-            setLocalWebDriver();
+            if (Arrays.toString(this.environment.getActiveProfiles()).contains("jenkins")) {
+                setRemoteDriver(new URL(applicationProperties.getGridUrl()));
+            } else {
+                setLocalWebDriver();
+            }
             WebDriverRunner.setWebDriver(getDriver());
             WebDriverRunner.getWebDriver().manage().deleteAllCookies();//useful for AJAX pages
         }

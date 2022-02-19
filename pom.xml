@@ -111,6 +111,12 @@
             <artifactId>allure-cucumber6-jvm</artifactId>
             <version>${allure.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.paulhammant</groupId>
+            <artifactId>ngwebdriver</artifactId>
+            <version>1.1.6</version>
+        </dependency>
+
 
         <!--spring dependencies-->
         <dependency>
@@ -228,9 +234,6 @@
         </profile>
         <profile>
             <id>prod</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <activatedProperties>prod</activatedProperties>
             </properties>
@@ -239,6 +242,12 @@
             <id>uat</id>
             <properties>
                 <activatedProperties>uat</activatedProperties>
+            </properties>
+        </profile>
+        <profile>
+            <id>jenkins</id>
+            <properties>
+                <activatedProperties>jenkins</activatedProperties>
             </properties>
         </profile>
     </profiles>
