@@ -43,19 +43,19 @@
     <properties>
         <activeProfile>prod</activeProfile>
         <aspectj.version>1.9.1</aspectj.version>
-        <allure.version>2.16.1</allure.version>
+        <allure.version>2.18.1</allure.version>
         <commons.version>2.11.0</commons.version>
-        <extentreports.version>2.8.4</extentreports.version>
-        <cucumber.version>6.2.2</cucumber.version>
-        <assertj-core.version>3.21.0</assertj-core.version>
+        <extentreports.version>1.6.0</extentreports.version>
+        <cucumber.version>7.3.3</cucumber.version>
+        <assertj-core.version>3.23.1</assertj-core.version>
         <java.version>11</java.version>
         <selenium-version>3.8.1</selenium-version>
         <selenide-version>6.1.1</selenide-version>
         <restassured.version>3.0.0</restassured.version>
         <surfire.plugin.version>2.22.2</surfire.plugin.version>
         <compiler.plugin.version>3.8.1</compiler.plugin.version>
-        <spring-rabbit.version>2.3.9</spring-rabbit.version>
-        <org.json.version>20160810</org.json.version>
+        <spring-rabbit.version>2.4.4</spring-rabbit.version>
+        <org.json.version>20220320</org.json.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -90,6 +90,13 @@
             <version>${cucumber.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>gherkin</artifactId>
+            <version>23.0.0</version>
+        </dependency>
+
+
         <!--test dependencies-->
         <dependency>
             <groupId>commons-io</groupId>
@@ -103,12 +110,12 @@
         </dependency>
         <dependency>
             <groupId>tech.grasshopper</groupId>
-            <artifactId>extentreports-cucumber6-adapter</artifactId>
+            <artifactId>extentreports-cucumber7-adapter</artifactId>
             <version>${extentreports.version}</version>
         </dependency>
         <dependency>
             <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-cucumber6-jvm</artifactId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
             <version>${allure.version}</version>
         </dependency>
         <dependency>

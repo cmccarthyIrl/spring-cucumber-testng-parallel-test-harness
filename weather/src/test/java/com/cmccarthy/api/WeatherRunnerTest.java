@@ -10,7 +10,7 @@ import org.testng.annotations.DataProvider;
         },
         plugin = {
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
-                "io.qameta.allure.cucumber6jvm.AllureCucumber6Jvm"
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
         })
 public class WeatherRunnerTest extends AbstractTestNGCucumberTests {
     @Override
