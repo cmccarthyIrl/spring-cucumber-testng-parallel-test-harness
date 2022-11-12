@@ -43,19 +43,20 @@
     <properties>
         <activeProfile>prod</activeProfile>
         <aspectj.version>1.9.1</aspectj.version>
-        <allure.version>2.19.0</allure.version>
+        <allure.version>2.20.0</allure.version>
         <commons.version>2.11.0</commons.version>
-        <extentreports.version>1.7.0</extentreports.version>
-        <cucumber.version>7.8.0</cucumber.version>
+        <extentreports.version>1.8.0</extentreports.version>
+        <cucumber.version>7.8.1</cucumber.version>
         <assertj-core.version>3.23.1</assertj-core.version>
         <java.version>11</java.version>
         <selenium-version>3.8.1</selenium-version>
-        <selenide-version>6.1.1</selenide-version>
+        <maven.resources.plugin.version>1.7.0</maven.resources.plugin.version>
+        <selenide-version>6.9.0</selenide-version>
         <restassured.version>3.0.0</restassured.version>
         <surfire.plugin.version>2.22.2</surfire.plugin.version>
         <compiler.plugin.version>3.8.1</compiler.plugin.version>
         <spring-rabbit.version>2.4.7</spring-rabbit.version>
-        <org.json.version>20220320</org.json.version>
+        <org.json.version>20220924</org.json.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -93,7 +94,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>gherkin</artifactId>
-            <version>24.0.0</version>
+            <version>24.1.0</version>
         </dependency>
 
 

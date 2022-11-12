@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
     <property name="USER_HOME" value="logs"/>
 
     <appender name="FILE-THREAD" class="ch.qos.logback.classic.sift.SiftingAppender">
@@ -20,9 +20,15 @@
     </appender>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>[%thread] %highlight(%-5level) %cyan(%logger{15}) - %msg %n</Pattern>
-        </layout>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%blue([%d{ISO8601}]) %green([%thread]) %highlight(%green(%-5level)) %blue([%logger{100}]:) %green(%msg%n%throwable)
+            </Pattern>
+        </encoder>
     </appender>
 
     <logger name="com.cmccarthy" level="info" additivity="false">
