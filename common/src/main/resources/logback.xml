@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+<!--    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>-->
     <property name="USER_HOME" value="logs"/>
 
     <appender name="FILE-THREAD" class="ch.qos.logback.classic.sift.SiftingAppender">
@@ -19,7 +19,7 @@
         </sift>
     </appender>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="STDOUT_INFO" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
@@ -31,13 +31,65 @@
         </encoder>
     </appender>
 
+    <appender name="STDOUT_ERROR" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%blue([%d{ISO8601}]) %red([%thread]) %highlight(%red(%-5level)) %blue([%logger{100}]:) %red(%msg%n%throwable)
+            </Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT_WARN" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%blue([%d{ISO8601}]) %yellow([%thread]) %highlight(%yellow(%-5level)) %blue([%logger{100}]:) %yellow(%msg%n%throwable)
+            </Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT_DEBUG" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%blue([%d{ISO8601}]) %cyan([%thread]) %highlight(%cyan(%-5level)) %blue([%logger{100}]:) %cyan(%msg%n%throwable)
+            </Pattern>
+        </encoder>
+    </appender>
+
     <logger name="com.cmccarthy" level="info" additivity="false">
         <appender-ref ref="FILE-THREAD"/>
-        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="STDOUT_INFO"/>
+        <appender-ref ref="STDOUT_DEBUG"/>
+        <appender-ref ref="STDOUT_WARN"/>
+        <appender-ref ref="STDOUT_ERROR"/>
     </logger>
 
-    <root level="info">
-        <appender-ref ref="STDOUT"/>
+    <root level="INFO">
+        <appender-ref ref="STDOUT_INFO"/>
+        <appender-ref ref="STDOUT_DEBUG"/>
+        <appender-ref ref="STDOUT_WARN"/>
+        <appender-ref ref="STDOUT_ERROR"/>
     </root>
 
 </configuration>
