@@ -1,8 +1,7 @@
 package com.cmccarthy.common.utils;
 
 import io.cucumber.java.Scenario;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -10,8 +9,8 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class HookUtil {
 
-    private final Logger log = LoggerFactory.getLogger(HookUtil.class);
-
+    @Autowired
+    LogManager logManager;
     public void endOfTest(Scenario scenario) {
 
         if (scenario.getStatus() != null) {
@@ -23,11 +22,11 @@ public class HookUtil {
             }
         }
 
-        log.info("");
-        log.info("==========================================================================");
-        log.info("================================Test " + scenario.getStatus().toString() + "===============================");
-        log.info("==========================================================================");
-        log.info("");
+        logManager.info("");
+        logManager.info("==========================================================================");
+        logManager.info("================================Test " + scenario.getStatus().toString() + "===============================");
+        logManager.info("==========================================================================");
+        logManager.info("");
     }
 
 

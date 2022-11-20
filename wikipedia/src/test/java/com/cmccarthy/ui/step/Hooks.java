@@ -1,6 +1,7 @@
 package com.cmccarthy.ui.step;
 
 import com.cmccarthy.common.utils.HookUtil;
+import com.cmccarthy.common.utils.LogManager;
 import com.cmccarthy.ui.config.WikipediaAbstractTestDefinition;
 import com.cmccarthy.ui.utils.DriverManager;
 import com.codeborne.selenide.WebDriverRunner;
@@ -14,7 +15,8 @@ import java.net.MalformedURLException;
 
 @CucumberContextConfiguration
 public class Hooks extends WikipediaAbstractTestDefinition {
-
+    @Autowired
+    private LogManager logManager;
     private static final Object lock = new Object();
     private static boolean initialized = false;
     @Autowired
@@ -24,6 +26,9 @@ public class Hooks extends WikipediaAbstractTestDefinition {
 
     @Before
     public void beforeScenario(Scenario scenario) throws MalformedURLException {
+        String filename = scenario.getName().replaceAll("\\s+", "_");
+        logManager.createNewLogger(filename);
+
         synchronized (lock) {
             if (!initialized) {
                 if (!driverManager.isDriverExisting()) {

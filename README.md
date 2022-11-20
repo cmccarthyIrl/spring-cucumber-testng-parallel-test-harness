@@ -246,7 +246,8 @@ public class FrameworkContextConfiguration {
 There is only one thing you need to do to switch the environment - which is to set `<activeByDefault>` property in the
 Master POM.
 
-> By default, the value of `spring.profiles.active` is defined in the `application.properties` file which inherits its value from the Master POM property `<activeByDefault>`
+> By default, the value of `spring.profiles.active` is defined in the `application.properties` file which inherits its
+> value from the Master POM property `<activeByDefault>`
 
 ```xml
 
