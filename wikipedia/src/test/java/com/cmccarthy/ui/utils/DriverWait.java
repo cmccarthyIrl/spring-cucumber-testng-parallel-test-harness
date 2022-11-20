@@ -1,21 +1,14 @@
 package com.cmccarthy.ui.utils;
 
 import com.cmccarthy.common.utils.Constants;
-import com.cmccarthy.ui.utils.expectedConditions.ClickabilityOfElement;
-import com.cmccarthy.ui.utils.expectedConditions.ClickabilityOfElementByLocator;
-import com.cmccarthy.ui.utils.expectedConditions.InvisibilityOfElement;
-import com.cmccarthy.ui.utils.expectedConditions.InvisibilityOfElementByLocator;
-import com.cmccarthy.ui.utils.expectedConditions.VisibilityOfElement;
-import com.cmccarthy.ui.utils.expectedConditions.VisibilityOfElementByLocator;
+import com.cmccarthy.ui.utils.expectedConditions.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
