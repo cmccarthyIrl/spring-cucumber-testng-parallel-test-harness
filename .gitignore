@@ -5,3 +5,4 @@ test-output/
 .idea
 *.iml
 .allure
+.iml
