@@ -9,12 +9,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.opera.OperaDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,22 +30,21 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 
 @Component
 public class DriverManager {
-    private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
 
+    private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private final Logger log = LoggerFactory.getLogger(DriverManager.class);
 
     @Autowired
     private ApplicationProperties applicationProperties;
-
     @Autowired
     private DriverWait driverWait;
-
     @Autowired
     private Environment environment;
 
@@ -60,66 +62,68 @@ public class DriverManager {
 
     public void setLocalWebDriver() {
         switch (applicationProperties.getBrowser()) {
-            case ("chrome"):
+            case ("chrome") -> {
                 System.setProperty("webdriver.chrome.driver", Constants.DRIVER_DIRECTORY + "/chromedriver" + getExtension());
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--disable-logging");
                 driverThreadLocal.set(new ChromeDriver(options));
-                break;
-            case ("firefox"):
+            }
+            case ("firefox") -> {
                 System.setProperty("webdriver.gecko.driver", Constants.DRIVER_DIRECTORY + "/geckodriver" + getExtension());
-                System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "/dev/null");
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
+                firefoxOptions.setBinary("C:\\Program Files\\Mozilla Firefox\\firefox.exe");
                 firefoxOptions.setCapability("marionette", true);
                 driverThreadLocal.set(new FirefoxDriver(firefoxOptions));
-                break;
-            case ("ie"):
+            }
+            case ("ie") -> {
                 System.setProperty("webdriver.ie.driver", Constants.DRIVER_DIRECTORY + "/IEDriverServer" + getExtension());
-                DesiredCapabilities capabilitiesIE = DesiredCapabilities.internetExplorer();
+                InternetExplorerOptions capabilitiesIE = new InternetExplorerOptions();
                 capabilitiesIE.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
                 driverThreadLocal.set(new InternetExplorerDriver(capabilitiesIE));
-                break;
-            case ("safari"):
+            }
+            case ("safari") -> {
+                OperaOptions operaOptions = new OperaOptions();
                 System.setProperty("webdriver.opera.driver", Constants.DRIVER_DIRECTORY + "/operadriver" + getExtension());
-                driverThreadLocal.set(new OperaDriver());
-                break;
-            case ("edge"):
+                driverThreadLocal.set(new OperaDriver(operaOptions));
+            }
+            case ("edge") -> {
+                EdgeOptions edgeOptions = new EdgeOptions();
                 System.setProperty("webdriver.edge.driver", Constants.DRIVER_DIRECTORY + "/MicrosoftWebDriver" + getExtension());
-                driverThreadLocal.set(new EdgeDriver());
-                break;
-            default:
-                throw new NoSuchElementException("Failed to create an instance of WebDriver for: " + applicationProperties.getBrowser());
+                driverThreadLocal.set(new EdgeDriver(edgeOptions));
+            }
+            default ->
+                    throw new NoSuchElementException("Failed to create an instance of WebDriver for: " + applicationProperties.getBrowser());
         }
-        driverWait.getDriverWaitThreadLocal().set(new WebDriverWait(driverThreadLocal.get(), Constants.timeoutShort, Constants.pollingShort));
+        driverWait.getDriverWaitThreadLocal().set(new WebDriverWait(driverThreadLocal.get(), Duration.ofSeconds(Constants.timeoutShort), Duration.ofSeconds(Constants.pollingShort)));
     }
 
     private void setRemoteDriver(URL hubUrl) {
         Capabilities capability;
         switch (applicationProperties.getBrowser()) {
-            case "firefox":
-                capability = DesiredCapabilities.firefox();
+            case "firefox" -> {
+                capability = new FirefoxOptions();
                 driverThreadLocal.set(new RemoteWebDriver(hubUrl, capability));
-                break;
-            case "chrome":
-                capability = DesiredCapabilities.chrome();
+            }
+            case "chrome" -> {
+                capability = new ChromeOptions();
                 driverThreadLocal.set(new RemoteWebDriver(hubUrl, capability));
-                break;
-            case "ie":
-                capability = DesiredCapabilities.internetExplorer();
+            }
+            case "ie" -> {
+                capability = new InternetExplorerOptions();
                 driverThreadLocal.set(new RemoteWebDriver(hubUrl, capability));
-                break;
-            case "safari":
-                capability = DesiredCapabilities.safari();
+            }
+            case "safari" -> {
+                capability = new SafariOptions();
                 driverThreadLocal.set(new RemoteWebDriver(hubUrl, capability));
-                break;
-            case ("edge"):
-                capability = DesiredCapabilities.edge();
+            }
+            case ("edge") -> {
+                capability = new EdgeOptions();
                 driverThreadLocal.set(new RemoteWebDriver(hubUrl, capability));
-                break;
-            default:
-                throw new NoSuchElementException("Failed to create an instance of RemoteWebDriver for: " + applicationProperties.getBrowser());
+            }
+            default ->
+                    throw new NoSuchElementException("Failed to create an instance of RemoteWebDriver for: " + applicationProperties.getBrowser());
         }
-        driverWait.getDriverWaitThreadLocal().set(new WebDriverWait(driverThreadLocal.get(), Constants.timeoutShort, Constants.pollingShort));
+        driverWait.getDriverWaitThreadLocal().set(new WebDriverWait(driverThreadLocal.get(), Duration.ofSeconds(Constants.timeoutShort), Duration.ofSeconds(Constants.pollingShort)));
     }
 
     public WebDriver getDriver() {

@@ -28,7 +28,7 @@ public class ClickabilityOfElementByLocator implements ExpectedCondition<WebElem
 
         try {
             return wait.until(ExpectedConditions.elementToBeClickable(locator));
-        } catch (StaleElementReferenceException | NoSuchElementException | ElementNotVisibleException e) {
+        } catch (StaleElementReferenceException | NoSuchElementException e) {
             return webDriver.findElement(locator);
         } catch (Throwable t) {
             throw new Error(t);

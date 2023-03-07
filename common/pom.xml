@@ -17,7 +17,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-remote-resources-plugin</artifactId>
-                <version>${maven.resources.plugin.version}</version>
+                <version>${maven-remote-resources-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>

@@ -17,17 +17,15 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings("unused")
 public class DriverHelper {
 
+//    @Bean
+//    public DriverHelper driverHelper(){
+//        return new DriverHelper();
+//    }
+
     private final Logger logger = LoggerFactory.getLogger(DriverHelper.class);
-
-    private final DriverManager driverManager;
-
-    private final DriverWait driverWait;
-
+    private DriverManager driverManager;
     @Autowired
-    public DriverHelper(DriverManager driverManager, DriverWait driverWait) {
-        this.driverManager = driverManager;
-        this.driverWait = driverWait;
-    }
+    private DriverWait driverWait;
 
     /**
      * Send Keys to the specified element, clears the element first

@@ -25,7 +25,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-remote-resources-plugin</artifactId>
-                <version>${maven.resources.plugin.version}</version>
+                <version>${maven-remote-resources-plugin.version}</version>
                 <configuration>
                     <resourceBundles>
                         <resourceBundle>spring-cucumber-testng-parallel-test-harness:common:1.0-SNAPSHOT

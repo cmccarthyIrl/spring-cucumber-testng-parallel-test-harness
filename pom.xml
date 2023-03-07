@@ -14,9 +14,6 @@
             <name>cmccarthy</name>
             <id>cmccarthy</id>
             <email>https://github.com/cmccarthyIrl</email>
-            <roles>
-                <role>Java Automation Engineer</role>
-            </roles>
         </developer>
     </developers>
 
@@ -37,71 +34,85 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.4.RELEASE</version>
+        <version>3.0.4</version>
+        <relativePath/>
     </parent>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>3.0.4</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <properties>
         <activeProfile>prod</activeProfile>
-        <aspectj.version>1.9.1</aspectj.version>
-        <allure.version>2.20.0</allure.version>
-        <commons.version>2.11.0</commons.version>
-        <extentreports.version>1.9.0</extentreports.version>
-        <cucumber.version>7.8.1</cucumber.version>
-        <assertj-core.version>3.23.1</assertj-core.version>
-        <java.version>11</java.version>
-        <selenium-version>3.8.1</selenium-version>
-        <maven.resources.plugin.version>1.7.0</maven.resources.plugin.version>
-        <selenide-version>6.9.0</selenide-version>
-        <restassured.version>3.3.0</restassured.version>
-        <surfire.plugin.version>2.22.2</surfire.plugin.version>
-        <compiler.plugin.version>3.8.1</compiler.plugin.version>
-        <spring-rabbit.version>2.4.7</spring-rabbit.version>
-        <org.json.version>20220924</org.json.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <json.version>20220924</json.version>
+        <rest-assured.version>5.2.0</rest-assured.version>
+        <cucumber-java.version>7.8.1</cucumber-java.version>
+        <cucumber-spring.version>7.8.1</cucumber-spring.version>
+        <cucumber-testng.version>7.8.1</cucumber-testng.version>
+        <gherkin.version>24.1.0</gherkin.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <assertj-core.version>3.23.1</assertj-core.version>
+        <extentreports-cucumber7-adapter.version>1.9.0</extentreports-cucumber7-adapter.version>
+        <allure-cucumber7-jvm.version>2.20.0</allure-cucumber7-jvm.version>
+        <ngwebdriver.version>1.2</ngwebdriver.version>
+        <log4j.version>1.2.17</log4j.version>
+        <allure.version>2.20.0</allure.version>
+        <selenide.version>6.12.0</selenide.version>
+        <selenium-java.version>4.6.0</selenium-java.version>
+        <selenium-server.version>3.141.59</selenium-server.version>
+        <maven-remote-resources-plugin.version>1.7.0</maven-remote-resources-plugin.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>${org.json.version}</version>
+            <version>20220924</version>
         </dependency>
 
         <!-- Rest Cucumber dependencies-->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>${restassured.version}</version>
+            <version>${rest-assured.version}</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>${cucumber.version}</version>
+            <version>${cucumber-java.version}</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-spring</artifactId>
-            <version>${cucumber.version}</version>
+            <version>${cucumber-spring.version}</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-testng</artifactId>
-            <version>${cucumber.version}</version>
+            <version>${cucumber-testng.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>gherkin</artifactId>
-            <version>24.1.0</version>
+            <version>${gherkin.version}</version>
         </dependency>
-
 
         <!--test dependencies-->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>${commons.version}</version>
+            <version>${commons-io.version}</version>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
@@ -111,7 +122,7 @@
         <dependency>
             <groupId>tech.grasshopper</groupId>
             <artifactId>extentreports-cucumber7-adapter</artifactId>
-            <version>${extentreports.version}</version>
+            <version>${extentreports-cucumber7-adapter.version}</version>
         </dependency>
         <dependency>
             <groupId>io.qameta.allure</groupId>
@@ -121,39 +132,26 @@
         <dependency>
             <groupId>com.paulhammant</groupId>
             <artifactId>ngwebdriver</artifactId>
-            <version>1.2</version>
+            <version>${ngwebdriver.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.codehaus.groovy</groupId>-->
-        <!--            <artifactId>groovy-all</artifactId>-->
-        <!--            <version>3.0.13</version>-->
-        <!--            <type>pom</type>-->
-        <!--        </dependency>-->
-
-
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <version>${log4j.version}</version>
         </dependency>
-
 
         <!--spring dependencies-->
         <dependency>
             <groupId>org.springframework.amqp</groupId>
             <artifactId>spring-rabbit</artifactId>
-            <version>${spring-rabbit.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.7.5</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>2.7.5</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -169,12 +167,10 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.2.9.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
-            <version>2.7.5</version>
         </dependency>
 
         <!--needs to be here-->
@@ -196,12 +192,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.0.2</version>
+                    <version>${maven-resources-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${compiler.plugin.version}</version>
+                    <version>${maven-compiler-plugin.version}</version>
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
@@ -217,34 +213,6 @@
                             </goals>
                         </execution>
                     </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${surfire.plugin.version}</version>
-                    <configuration>
-                        <testFailureIgnore>false</testFailureIgnore>
-                        <encoding>${project.build.sourceEncoding}</encoding>
-                        <argLine>
-                            -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                        </argLine>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.aspectj</groupId>
-                            <artifactId>aspectjweaver</artifactId>
-                            <version>${aspectj.version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-                <plugin>
-                    <groupId>io.qameta.allure</groupId>
-                    <artifactId>allure-maven</artifactId>
-                    <version>2.10.0</version>
-                    <configuration>
-                        <reportVersion>${allure.version}</reportVersion>
-                        <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

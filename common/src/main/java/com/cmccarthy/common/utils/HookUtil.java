@@ -11,6 +11,7 @@ public class HookUtil {
 
     @Autowired
     LogManager logManager;
+
     public void endOfTest(Scenario scenario) {
 
         if (scenario.getStatus() != null) {

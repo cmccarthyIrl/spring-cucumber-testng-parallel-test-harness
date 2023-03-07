@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -19,16 +20,9 @@ import java.util.NoSuchElementException;
 public class DriverWait {
 
     private static final ThreadLocal<Wait<WebDriver>> driverWaitThreadLocal = new ThreadLocal<>();
-    private final DriverManager driverManager;
-
     @Autowired
-    public DriverWait(DriverManager driverManager) {
-        this.driverManager = driverManager;
-    }
-
-    public Wait<WebDriver> getDriverWait() {
-        return driverWaitThreadLocal.get();
-    }
+    @Lazy
+    private DriverManager driverManager;
 
     public ThreadLocal<Wait<WebDriver>> getDriverWaitThreadLocal() {
         return driverWaitThreadLocal;
