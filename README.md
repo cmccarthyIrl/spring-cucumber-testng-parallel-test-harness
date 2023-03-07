@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness.svg?branch=master)](https://travis-ci.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6e4bd0bef1b5467aaaed6bc70a8ca2ae)](https://www.codacy.com/gh/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cmccarthyIrl/spring-cucumber-testng-parallel-test-harness&amp;utm_campaign=Badge_Grade)
 
 # Index
-
 <table> 
 <tr>
   <th>Start</th>
