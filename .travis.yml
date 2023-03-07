@@ -17,4 +17,3 @@ jobs:
   include:
     - stage: test
       script: mvn clean install -fae
-
