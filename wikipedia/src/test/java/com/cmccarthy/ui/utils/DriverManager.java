@@ -14,9 +14,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.opera.OperaDriver;
-import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -82,9 +81,9 @@ public class DriverManager {
                 driverThreadLocal.set(new InternetExplorerDriver(capabilitiesIE));
             }
             case ("safari") -> {
-                OperaOptions operaOptions = new OperaOptions();
+                SafariOptions operaOptions = new SafariOptions();
                 System.setProperty("webdriver.opera.driver", Constants.DRIVER_DIRECTORY + "/operadriver" + getExtension());
-                driverThreadLocal.set(new OperaDriver(operaOptions));
+                driverThreadLocal.set(new SafariDriver(operaOptions));
             }
             case ("edge") -> {
                 EdgeOptions edgeOptions = new EdgeOptions();

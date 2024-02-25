@@ -1,7 +1,5 @@
 # Spring - Cucumber - TestNG - Test Harness
 
-[![Build Status](https://travis-ci.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness.svg?branch=master)](https://travis-ci.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6e4bd0bef1b5467aaaed6bc70a8ca2ae)](https://www.codacy.com/gh/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cmccarthyIrl/spring-cucumber-testng-parallel-test-harness&amp;utm_campaign=Badge_Grade)
-
 # Index
 <table> 
 <tr>
@@ -121,8 +119,8 @@ Selenium `<dependencies>`:
 # Quickstart
 
 - [Intellij IDE](https://www.jetbrains.com/idea/) - `Recommended`
-- [Java JDK 11](https://jdk.java.net/java-se-ri/11)
-- [Apache Maven 3.6.3](https://maven.apache.org/docs/3.6.3/release-notes.html)
+- [Java JDK 17](https://jdk.java.net/java-se-ri/11)
+- [Apache Maven](https://maven.apache.org/docs/3.6.3/release-notes.html)
 
 # TestNG
 

@@ -34,7 +34,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.4</version>
+        <version>3.2.3</version>
         <relativePath/>
     </parent>
 
@@ -43,7 +43,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>3.0.4</version>
+                <version>3.2.3</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -56,21 +56,20 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <json.version>20220924</json.version>
-        <rest-assured.version>5.2.0</rest-assured.version>
-        <cucumber-java.version>7.8.1</cucumber-java.version>
-        <cucumber-spring.version>7.8.1</cucumber-spring.version>
-        <cucumber-testng.version>7.8.1</cucumber-testng.version>
-        <gherkin.version>24.1.0</gherkin.version>
-        <commons-io.version>2.11.0</commons-io.version>
+        <rest-assured.version>5.4.0</rest-assured.version>
+        <cucumber-java.version>7.15.0</cucumber-java.version>
+        <cucumber-spring.version>7.15.0</cucumber-spring.version>
+        <cucumber-testng.version>7.15.0</cucumber-testng.version>
+        <logback.version>1.5.0</logback.version>
+        <gherkin.version>28.0.0</gherkin.version>
+        <commons-io.version>2.15.1</commons-io.version>
         <assertj-core.version>3.23.1</assertj-core.version>
-        <extentreports-cucumber7-adapter.version>1.9.0</extentreports-cucumber7-adapter.version>
-        <allure-cucumber7-jvm.version>2.20.0</allure-cucumber7-jvm.version>
+        <extentreports-cucumber7-adapter.version>1.14.0</extentreports-cucumber7-adapter.version>
+        <allure-cucumber7-jvm.version>2.25.0</allure-cucumber7-jvm.version>
         <ngwebdriver.version>1.2</ngwebdriver.version>
-        <log4j.version>1.2.17</log4j.version>
-        <allure.version>2.20.0</allure.version>
-        <selenide.version>6.12.0</selenide.version>
-        <selenium-java.version>4.6.0</selenium-java.version>
-        <selenium-server.version>3.141.59</selenium-server.version>
+        <selenide.version>7.1.0</selenide.version>
+        <selenium-java.version>4.18.1</selenium-java.version>
+        <selenium-server.version>4.0.0-alpha-2</selenium-server.version>
         <maven-remote-resources-plugin.version>1.7.0</maven-remote-resources-plugin.version>
     </properties>
 
@@ -78,7 +77,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20220924</version>
+            <version>20240205</version>
         </dependency>
 
         <!-- Rest Cucumber dependencies-->
@@ -127,7 +126,7 @@
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber7-jvm</artifactId>
-            <version>${allure.version}</version>
+            <version>${allure-cucumber7-jvm.version}</version>
         </dependency>
         <dependency>
             <groupId>com.paulhammant</groupId>
@@ -135,9 +134,19 @@
             <version>${ngwebdriver.version}</version>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>${log4j.version}</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
         </dependency>
 
         <!--spring dependencies-->
