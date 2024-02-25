@@ -1,5 +1,7 @@
 # Spring - Cucumber - TestNG - Test Harness
 
+[![build](https://github.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness/actions/workflows/build.yml/badge.svg)](https://github.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness/actions/workflows/build.yml)
+
 # Index
 <table> 
 <tr>
