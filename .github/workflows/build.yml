@@ -20,15 +20,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Install Google Chrome # Using shell script to install Google Chrome
-        run: |
-          chmod +x ./scripts/InstallChrome.sh
-          ./scripts/InstallChrome.sh 
-
-      - name: Install Chrome Driver # Using shell script to install Chrome Driver
-        run: |
-          chmod +x ./scripts/downloadDriver.sh
-          ./scripts/downloadDriver.sh 
+      - uses: browser-actions/setup-chrome@latest
+                - run: chrome --version
 
       - name: Build with Maven
-        run: mvn test -DactiveProfile=jenkins
+        run: mvn -B clean test -DactiveProfile=jenkins
