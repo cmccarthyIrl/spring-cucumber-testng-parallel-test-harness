@@ -21,7 +21,7 @@ jobs:
           cache: maven
 
       - uses: browser-actions/setup-chrome@latest
-                - run: chrome --version
+      - run: chrome --version
 
       - name: Build with Maven
-        run: mvn -B clean test -DactiveProfile=jenkins
+      - run: mvn -B clean test -DactiveProfile=jenkins
