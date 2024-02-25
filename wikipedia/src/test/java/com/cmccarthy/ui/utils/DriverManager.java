@@ -62,7 +62,7 @@ public class DriverManager {
     public void setLocalWebDriver() {
         switch (applicationProperties.getBrowser()) {
             case ("chrome") -> {
-                String path = Arrays.toString(this.environment.getActiveProfiles()).contains("headless-github") ? Constants.DRIVER_DIRECTORY : "src/test/resources/drivers";
+                String path = Arrays.toString(this.environment.getActiveProfiles()).contains("headless-github") ? "src/test/resources/drivers" : Constants.DRIVER_DIRECTORY;
                 System.setProperty("webdriver.chrome.driver", path + "/chromedriver"+ getExtension());
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--disable-logging");
