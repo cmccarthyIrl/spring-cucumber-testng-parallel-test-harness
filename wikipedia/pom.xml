@@ -37,23 +37,23 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-remote-resources-plugin</artifactId>
-                <version>${maven-remote-resources-plugin.version}</version>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.1.2</version> <!-- Use the latest version -->
                 <configuration>
-                    <resourceBundles>
-                        <resourceBundle>spring-cucumber-testng-parallel-test-harness:common:1.0-SNAPSHOT
-                        </resourceBundle>
-                    </resourceBundles>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/suite/WikipediaSuiteTest.xml</suiteXmlFile>
+                    </suiteXmlFiles>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>process</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-testng</artifactId>
+                        <version>3.2.3</version>
+                    </dependency>
+                </dependencies>
             </plugin>
-        </plugins>
+
+    </plugins>
     </build>
 
 </project>
