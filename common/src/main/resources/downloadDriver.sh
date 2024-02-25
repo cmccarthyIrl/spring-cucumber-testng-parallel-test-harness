@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -x
-export SCRIPT_DIR=../common/src/main/resources
+export SCRIPT_DIR=../wikipedia/src/test/resources
 cd $SCRIPT_DIR
 
 ROOT_DIR=$(pwd)
