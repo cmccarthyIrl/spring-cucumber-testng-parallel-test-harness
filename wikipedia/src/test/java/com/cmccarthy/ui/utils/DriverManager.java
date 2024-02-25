@@ -104,8 +104,11 @@ public class DriverManager {
                 driverThreadLocal.set(new RemoteWebDriver(hubUrl, capability));
             }
             case "chrome" -> {
-                capability = new ChromeOptions();
-                driverThreadLocal.set(new RemoteWebDriver(hubUrl, capability));
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
+                options.addArguments("--headless");
+                driverThreadLocal.set(new RemoteWebDriver(hubUrl, options));
             }
             case "ie" -> {
                 capability = new InternetExplorerOptions();
