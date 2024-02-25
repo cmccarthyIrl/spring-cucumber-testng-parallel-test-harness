@@ -66,6 +66,9 @@ public class DriverManager {
                 System.setProperty("webdriver.chrome.driver", path + "/chromedriver" + getExtension());
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--disable-logging");
+                options.addArguments("--no-sandbox");
+                options.addArguments("--disable-dev-shm-usage");
+                options.addArguments("--headless");
                 driverThreadLocal.set(new ChromeDriver(options));
             }
             case ("firefox") -> {
