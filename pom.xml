@@ -51,7 +51,7 @@
     </dependencyManagement>
 
     <properties>
-        <activeProfile>prod</activeProfile>
+        <activeProfile>headless-github</activeProfile>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -237,9 +237,15 @@
             </properties>
         </profile>
         <profile>
-            <id>jenkins</id>
+            <id>cloud-provider</id>
             <properties>
-                <activatedProperties>jenkins</activatedProperties>
+                <activatedProperties>cloud-provider</activatedProperties>
+            </properties>
+        </profile>
+        <profile>
+            <id>headless-github</id>
+            <properties>
+                <activatedProperties>headless-github</activatedProperties>
             </properties>
         </profile>
     </profiles>

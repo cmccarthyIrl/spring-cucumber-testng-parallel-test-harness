@@ -49,7 +49,7 @@ public class DriverManager {
 
     public void createDriver() throws MalformedURLException {
         if (getDriver() == null) {
-            if (Arrays.toString(this.environment.getActiveProfiles()).contains("jenkins")) {
+            if (Arrays.toString(this.environment.getActiveProfiles()).contains("cloud-provider")) {
                 setRemoteDriver(new URL(applicationProperties.getGridUrl()));
             } else {
                 setLocalWebDriver();
@@ -62,7 +62,8 @@ public class DriverManager {
     public void setLocalWebDriver() {
         switch (applicationProperties.getBrowser()) {
             case ("chrome") -> {
-                System.setProperty("webdriver.chrome.driver", Constants.DRIVER_DIRECTORY + "/chromedriver" + getExtension());
+                String path = Arrays.toString(this.environment.getActiveProfiles()).contains("headless-github") ? Constants.DRIVER_DIRECTORY : "src/test/resources/drivers";
+                System.setProperty("webdriver.chrome.driver", path + "/chromedriver"+ getExtension());
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--disable-logging");
                 driverThreadLocal.set(new ChromeDriver(options));
