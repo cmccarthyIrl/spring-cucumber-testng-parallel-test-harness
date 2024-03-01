@@ -63,9 +63,7 @@ public class DriverManager {
     public void setLocalWebDriver() throws IOException {
         switch (applicationProperties.getBrowser()) {
             case ("chrome") -> {
-
                 String path = Arrays.toString(this.environment.getActiveProfiles()).contains("headless-github") ? System.getProperty("user.dir") + "/src/test/resources/drivers" : Constants.DRIVER_DIRECTORY;
-                System.out.println("path " + path + "/chromedriver" + getExtension());
                 ChromeDriverService src = new ChromeDriverService.Builder()
                         .usingDriverExecutable(new File(path + "/chromedriver" + getExtension()))
                         .usingAnyFreePort().build();
