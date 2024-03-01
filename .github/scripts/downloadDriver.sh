@@ -9,9 +9,9 @@ sudo apt-get install unzip
 #wget -N http://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip
 #unzip chromedriver_linux64.zip
 #chmod +x chromedriver
-#sudo mv -f chromedriver /home/runner/work/spring-cucumber-testng-parallel-test-harness/spring-cucumber-testng-parallel-test-harness/wikipedia/src/test/resources/drivers
+#sudo mv -f chromedriver /home/runner/work/spring-cucumber-testng-parallel-test-harness/wikipedia/src/test/resources/drivers
 
-TEST_RESOURCES=/home/runner/work/spring-cucumber-testng-parallel-test-harness/spring-cucumber-testng-parallel-test-harness/wikipedia/src/test/resources/drivers
+TEST_RESOURCES=/home/runner/work/spring-cucumber-testng-parallel-test-harness/wikipedia/src/test/resources/drivers
 
 mkdir "temp" &&
 cd "temp" &&
