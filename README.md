@@ -268,7 +268,7 @@ Master POM.
 You can then specify the profile to use when running Maven from the command line like so:
 
 ```
-mvn clean install -DactiveProfile=dev
+mvn clean install -DactiveProfile=github-headless
 ```
 
 Below is an example of the `application.properties` file.
