@@ -1,15 +1,8 @@
 name: deploy
 
 jobs:
-  steps:
+    steps:
     - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-
     - name: Remove Chrome
       run: sudo apt purge google-chrome-stable
     - name: Remove default Chromium
