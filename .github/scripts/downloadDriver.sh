@@ -13,6 +13,8 @@ sudo apt-get install unzip
 
 TEST_RESOURCES=/home/runner/work/spring-cucumber-testng-parallel-test-harness/wikipedia/src/test/resources/drivers
 
+echo pwd
+
 mkdir "temp" &&
 cd "temp" &&
 curl -L -k --output driver.zip https://www.nuget.org/api/v2/package/Selenium.WebDriver.ChromeDriver/ --ssl-no-revoke &&
@@ -22,4 +24,3 @@ cp "chromedriver" "$TEST_RESOURCES" &&
 chmod +700 "$TEST_RESOURCES/chromedriver" &&
 cd ../../../ &&
 rm -rf temp
-
