@@ -1,12 +1,14 @@
 #!/bin/bash
 
 set -x
-export SCRIPT_DIR=../wikipedia/src/test/resources
+export SCRIPT_DIR=../../../../wikipedia/src/test/resources
 cd $SCRIPT_DIR
 
 ROOT_DIR=$(pwd)
 TEST_RESOURCES=$ROOT_DIR
 FILE_EXTENSION=""
+
+echo $TEST_RESOURCES
 
 case "$OSTYPE" in
 solaris*) echo "$OSTYPE not supported" ;;
