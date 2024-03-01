@@ -21,4 +21,5 @@ cd driver/linux64 &&
 cp "chromedriver" "$TEST_RESOURCES" &&
 chmod +700 "$TEST_RESOURCES/chromedriver" &&
 cd ../../../ &&
-rm -rf temp &&
+rm -rf temp
+
