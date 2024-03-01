@@ -20,6 +20,11 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Remove Chrome
+        run: sudo apt purge google-chrome-stable
+      - name: Remove default Chromium
+        run: sudo apt purge chromium-browser
+
       - name: Install Google Chrome # Using shell script to install Google Chrome
         run: |
           chmod +x ./.github/scripts/InstallChrome.sh
