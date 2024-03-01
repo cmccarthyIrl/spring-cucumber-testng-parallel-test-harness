@@ -13,7 +13,8 @@ sudo apt-get install unzip
 
 TEST_RESOURCES=/home/runner/work/spring-cucumber-testng-parallel-test-harness/wikipedia/src/test/resources/drivers
 
-echo "$(github.workspace)"
+echo "workspace = $(github.workspace)"
+echo "pwd = $(pwd)"
 
 mkdir "temp" &&
 cd "temp" &&
