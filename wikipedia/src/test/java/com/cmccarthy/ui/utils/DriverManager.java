@@ -29,7 +29,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Arrays;
@@ -157,24 +156,26 @@ public class DriverManager {
     }
 
     public void downloadDriver() {
-        try {
-            Process process;
-            if (getOperatingSystem().equals("win")) {
-                process = Runtime.getRuntime().exec("cmd.exe /c downloadDriver.sh", null,
-                        new File(Constants.COMMON_RESOURCES));
-            } else {
-                process = Runtime.getRuntime().exec(
-                        new String[]{"sh", "-c", Constants.COMMON_RESOURCES + "/downloadDriver.sh"});
+        if (!Arrays.toString(this.environment.getActiveProfiles()).contains("headless-github")) {
+            try {
+                Process process;
+                if (getOperatingSystem().equals("win")) {
+                    process = Runtime.getRuntime().exec("cmd.exe /c downloadDriver.sh", null,
+                            new File(Constants.COMMON_RESOURCES));
+                } else {
+                    process = Runtime.getRuntime().exec(
+                            new String[]{"sh", "-c", Constants.COMMON_RESOURCES + "/downloadDriver.sh"});
+                }
+                process.waitFor();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line = reader.readLine();
+                while (line != null) {
+                    log.debug(line);
+                    line = reader.readLine();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            process.waitFor();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line = reader.readLine();
-            while (line != null) {
-                log.debug(line);
-                line = reader.readLine();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
