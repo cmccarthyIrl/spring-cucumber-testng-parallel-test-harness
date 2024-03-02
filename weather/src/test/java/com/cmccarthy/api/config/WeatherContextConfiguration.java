@@ -8,8 +8,8 @@ import org.springframework.retry.annotation.EnableRetry;
 @EnableRetry
 @Configuration
 @ComponentScan({
-    "com.cmccarthy.api",
-    "com.cmccarthy.common"
+        "com.cmccarthy.api",
+        "com.cmccarthy.common"
 })
 @PropertySource("classpath:/application.properties")
 public class WeatherContextConfiguration {

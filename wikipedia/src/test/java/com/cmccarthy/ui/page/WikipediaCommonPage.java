@@ -9,15 +9,15 @@ import org.openqa.selenium.support.How;
 @PageObject
 public class WikipediaCommonPage extends AbstractPage {
 
-  @FindBy(how = How.CLASS_NAME, using = "mainpage-welcome-sitename")
-  private WebElement centralLogo;
+    @FindBy(how = How.CLASS_NAME, using = "mainpage-welcome-sitename")
+    private WebElement centralLogo;
 
-  public WikipediaCommonPage(DriverManager driverManager) {
-    super(driverManager);
-  }
+    public WikipediaCommonPage(DriverManager driverManager) {
+        super(driverManager);
+    }
 
-  public WebElement getCentralLogo() {
-    return centralLogo;
-  }
+    public WebElement getCentralLogo() {
+        return centralLogo;
+    }
 }
 

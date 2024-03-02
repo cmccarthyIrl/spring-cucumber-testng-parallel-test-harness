@@ -6,20 +6,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "all"
+        "all"
 })
 public class Clouds {
 
-  @JsonProperty("all")
-  private Integer all;
+    @JsonProperty("all")
+    private Integer all;
 
-  @JsonProperty("all")
-  public Integer getAll() {
-    return all;
-  }
+    @JsonProperty("all")
+    public Integer getAll() {
+        return all;
+    }
 
-  @JsonProperty("all")
-  public void setAll(Integer all) {
-    this.all = all;
-  }
+    @JsonProperty("all")
+    public void setAll(Integer all) {
+        this.all = all;
+    }
 }

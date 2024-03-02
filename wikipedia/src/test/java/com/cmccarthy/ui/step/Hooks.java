@@ -9,41 +9,42 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.spring.CucumberContextConfiguration;
-import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
 
 @CucumberContextConfiguration
 public class Hooks extends WikipediaAbstractTestDefinition {
-  @Autowired
-  private LogManager logManager;
-  private static final Object lock = new Object();
-  private static boolean initialized = false;
-  @Autowired
-  private HookUtil hookUtil;
-  @Autowired
-  private DriverManager driverManager;
+    @Autowired
+    private LogManager logManager;
+    private static final Object lock = new Object();
+    private static boolean initialized = false;
+    @Autowired
+    private HookUtil hookUtil;
+    @Autowired
+    private DriverManager driverManager;
 
-  @Before
-  public void beforeScenario(Scenario scenario) throws IOException {
-    String filename = scenario.getName().replaceAll("\\s+", "_");
-    logManager.createNewLogger(filename);
+    @Before
+    public void beforeScenario(Scenario scenario) throws IOException {
+        String filename = scenario.getName().replaceAll("\\s+", "_");
+        logManager.createNewLogger(filename);
 
-    synchronized (lock) {
-      if (!initialized) {
-        if (!driverManager.isDriverExisting()) {
-          driverManager.downloadDriver();
+        synchronized (lock) {
+            if (!initialized) {
+                if (!driverManager.isDriverExisting()) {
+                    driverManager.downloadDriver();
+                }
+                initialized = true;
+            }
         }
-        initialized = true;
-      }
+        driverManager.createDriver();
     }
-    driverManager.createDriver();
-  }
 
-  @After
-  public void afterScenario(Scenario scenario) {
-    hookUtil.endOfTest(scenario);
-    if (driverManager.getDriver() != null) {
-      WebDriverRunner.closeWebDriver();
+    @After
+    public void afterScenario(Scenario scenario) {
+        hookUtil.endOfTest(scenario);
+        if (driverManager.getDriver() != null) {
+            WebDriverRunner.closeWebDriver();
+        }
     }
-  }
 }
