@@ -4,6 +4,9 @@ sudo apt-get install xvfb
 
 sudo apt-get install unzip
 
+SCRIPT_DIR=$(pwd)/wikipedia/src/test/resources/drivers
+cd $SCRIPT_DIR &&
+
 ROOT_DIR=$(pwd)
 mkdir "temp" &&
 cd "temp" &&
@@ -12,6 +15,6 @@ unzip driver.zip &&
 cd driver/linux64 &&
 ls &&
 chmod +x chromedriver &&
-sudo mv -f chromedriver "$ROOT_DIR/wikipedia/src/test/resources/drivers" &&
+sudo mv -f chromedriver "$ROOT_DIR" &&
 cd ../../../ &&
 rm -rf temp
