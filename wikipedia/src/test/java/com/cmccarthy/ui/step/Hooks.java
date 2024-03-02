@@ -26,6 +26,20 @@ public class Hooks extends WikipediaAbstractTestDefinition {
 
     @Before
     public void beforeScenario(Scenario scenario) throws IOException {
+
+        System.out.println("System.getProperty(\"user.dir\") = " + System.getProperty("user.dir"));
+        System.out.println("System.getProperty(\"user.dir\") = " + System.getProperty("user.dir"));
+        System.out.println("System.getProperty(\"user.dir\") = " + System.getProperty("user.dir"));
+        System.out.println("System.getProperty(\"user.dir\") = " + System.getProperty("user.dir"));
+        System.out.println("System.getProperty(\"user.dir\") = " + System.getProperty("user.dir"));
+        System.out.println("System.getProperty(\"user.dir\") = " + System.getProperty("user.dir"));
+        System.out.println("System.getProperty(\"user.dir\") = " + System.getProperty("user.dir"));
+        System.out.println("System.getProperty(\"user.dir\") = " + System.getProperty("user.dir"));
+        System.out.println("System.getProperty(\"user.dir\") = " + System.getProperty("user.dir"));
+        System.out.println("System.getProperty(\"user.dir\") = " + System.getProperty("user.dir"));
+        System.out.println("System.getProperty(\"user.dir\") = " + System.getProperty("user.dir"));
+        System.out.println("System.getProperty(\"user.dir\") = " + System.getProperty("user.dir"));
+        System.out.println("System.getProperty(\"user.dir\") = " + System.getProperty("user.dir"));
         String filename = scenario.getName().replaceAll("\\s+", "_");
         logManager.createNewLogger(filename);
 
