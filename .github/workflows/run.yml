@@ -1,8 +1,6 @@
 name: test
 
 on:
-  push:
-    branches: [ "feature/actions" ]
   pull_request:
     branches: [ "master" ]
 
