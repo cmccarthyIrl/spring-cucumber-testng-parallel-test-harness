@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Chrome Driver # Using shell script to install Chrome Driver
         run: |
-          chmod +x ./.github/scripts/downloadDriver.sh
+          chmod +x ./.github/scripts/downloadDriver.sh "/wikipedia/src/test/resources/drivers"
           ./.github/scripts/downloadDriver.sh 
 
       - run: |

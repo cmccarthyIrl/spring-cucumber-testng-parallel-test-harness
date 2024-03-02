@@ -4,8 +4,7 @@ sudo apt-get install xvfb
 
 sudo apt-get install unzip
 
-SCRIPT_DIR=$(pwd)/wikipedia/src/test/resources/drivers
-cd $SCRIPT_DIR &&
+cd "$(pwd)$1" &&
 
 ROOT_DIR=$(pwd)
 mkdir "temp" &&
