@@ -10,8 +10,8 @@ cd "temp" &&
 curl -L -k --output driver.zip https://www.nuget.org/api/v2/package/Selenium.WebDriver.ChromeDriver/ --ssl-no-revoke &&
 unzip driver.zip &&
 cd driver/linux64 &&
-cp "chromedriver" "$ROOT_DIR/wikipedia/src/test/resources/drivers" &&
-sync -f "$ROOT_DIR/wikipedia/src/test/resources/drivers/chromedriver" &&
-chmod +700 "$ROOT_DIR/wikipedia/src/test/resources/drivers/chromedriver" &&
+cp "chromedriver" "./wikipedia/src/test/resources/drivers" &&
+sync -f "./wikipedia/src/test/resources/drivers/chromedriver" &&
+chmod +700 "./wikipedia/src/test/resources/drivers/chromedriver" &&
 cd ../../../ &&
 rm -rf temp
