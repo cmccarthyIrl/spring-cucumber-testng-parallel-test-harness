@@ -23,9 +23,13 @@ public class WeatherStep extends WeatherAbstractTestDefinition {
     @Then("^The weather for (.*) should be returned$")
     public void theWeatherForDublinShouldBeReturned(String location) {
         final SoftAssertions softAssertions = new SoftAssertions();
-        final LocationWeatherRootResponse locationWeatherRootResponse = new Gson().fromJson(((Response) stepDefinitionDataManager.getStoredObjectMap().get("class")).getBody().asString(), LocationWeatherRootResponse.class);
-        logManager.info("Verifying the Response location : " + locationWeatherRootResponse.getName() + ", is equal to the expected location : " + location);
-        softAssertions.assertThat(locationWeatherRootResponse.getName()).as("Expected the weather forecast to be for : " + location).withFailMessage("But it was for : " + locationWeatherRootResponse.getName()).isEqualToIgnoringCase(location);
+        final LocationWeatherRootResponse locationWeatherRootResponse =
+                new Gson().fromJson(((Response) stepDefinitionDataManager.getStoredObjectMap().get("class")).getBody().asString(),
+                        LocationWeatherRootResponse.class);
+        logManager.info(
+                "Verifying the Response location : " + locationWeatherRootResponse.getName() + ", is equal to the expected location : " + location);
+        softAssertions.assertThat(locationWeatherRootResponse.getName()).as("Expected the weather forecast to be for : " + location)
+                .withFailMessage("But it was for : " + locationWeatherRootResponse.getName()).isEqualToIgnoringCase(location);
         softAssertions.assertAll();
     }
 

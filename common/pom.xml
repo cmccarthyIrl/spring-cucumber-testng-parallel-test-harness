@@ -13,27 +13,4 @@
     <version>1.0-SNAPSHOT</version>
     <artifactId>common</artifactId>
 
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-remote-resources-plugin</artifactId>
-                <version>${maven-remote-resources-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>bundle</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <includes>
-                        <include>**/extent.properties</include>
-                        <include>**/logback.xml</include>
-                        <include>**/allure.properties</include>
-                        <include>**/extent.xml</include>
-                    </includes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

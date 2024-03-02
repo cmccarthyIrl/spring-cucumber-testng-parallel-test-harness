@@ -1,5 +1,7 @@
 # Spring - Cucumber - TestNG - Test Harness
 
+[![build](https://github.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness/actions/workflows/build.yml/badge.svg)](https://github.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness/actions/workflows/build.yml)
+
 # Index
 <table> 
 <tr>
@@ -266,7 +268,7 @@ Master POM.
 You can then specify the profile to use when running Maven from the command line like so:
 
 ```
-mvn clean install -DactiveProfile=dev
+mvn clean install -DactiveProfile=github-headless
 ```
 
 Below is an example of the `application.properties` file.

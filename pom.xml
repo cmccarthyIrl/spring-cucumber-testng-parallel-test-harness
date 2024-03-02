@@ -51,11 +51,11 @@
     </dependencyManagement>
 
     <properties>
-        <activeProfile>prod</activeProfile>
+        <activeProfile>headless-github</activeProfile>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <json.version>20220924</json.version>
+        <json.version>20240205</json.version>
         <rest-assured.version>5.4.0</rest-assured.version>
         <cucumber-java.version>7.15.0</cucumber-java.version>
         <cucumber-spring.version>7.15.0</cucumber-spring.version>
@@ -71,13 +71,15 @@
         <selenium-java.version>4.18.1</selenium-java.version>
         <selenium-server.version>4.0.0-alpha-2</selenium-server.version>
         <maven-remote-resources-plugin.version>1.7.0</maven-remote-resources-plugin.version>
+        <maven.surefire.plugin.version>3.1.2</maven.surefire.plugin.version>
+        <surefire.testng.version>3.2.3</surefire.testng.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20240205</version>
+            <version>${json.version}</version>
         </dependency>
 
         <!-- Rest Cucumber dependencies-->
@@ -139,11 +141,6 @@
             <version>${logback.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
             <version>${logback.version}</version>
@@ -190,19 +187,8 @@
         </dependency>
     </dependencies>
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>${maven-resources-plugin.version}</version>
-                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -223,6 +209,7 @@
                         </execution>
                     </executions>
                 </plugin>
+
             </plugins>
         </pluginManagement>
     </build>
@@ -247,9 +234,15 @@
             </properties>
         </profile>
         <profile>
-            <id>jenkins</id>
+            <id>cloud-provider</id>
             <properties>
-                <activatedProperties>jenkins</activatedProperties>
+                <activatedProperties>cloud-provider</activatedProperties>
+            </properties>
+        </profile>
+        <profile>
+            <id>headless-github</id>
+            <properties>
+                <activatedProperties>headless-github</activatedProperties>
             </properties>
         </profile>
     </profiles>
