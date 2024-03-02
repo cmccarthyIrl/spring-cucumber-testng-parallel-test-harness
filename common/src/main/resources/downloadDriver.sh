@@ -27,7 +27,7 @@ if [ ! -f "$TEST_RESOURCES/drivers/chromedriver"$FILE_EXTENSION ]; then
     unzip driver.zip &&
     cd driver/$OS &&
     cp "chromedriver$FILE_EXTENSION" "$TEST_RESOURCES/drivers" &&
-    chmod +700 "$TEST_RESOURCES/drivers/chromedriver"$FILE_EXTENSION &&
+    chmod +x "$TEST_RESOURCES/drivers/chromedriver"$FILE_EXTENSION &&
     cd ../../../ &&
     rm -rf temp &&
     cd $ROOT_DIR
@@ -41,7 +41,7 @@ if [ ! -f "$TEST_RESOURCES/drivers/geckodriver"$FILE_EXTENSION ]; then
     unzip driver.zip &&
     cd driver/$OS &&
     cp "geckodriver$FILE_EXTENSION" "$TEST_RESOURCES/drivers" &&
-    chmod +700 "$TEST_RESOURCES/drivers/geckodriver"$FILE_EXTENSION &&
+    chmod +x "$TEST_RESOURCES/drivers/geckodriver"$FILE_EXTENSION &&
     cd ../../../ &&
     rm -rf temp &&
     cd $ROOT_DIR

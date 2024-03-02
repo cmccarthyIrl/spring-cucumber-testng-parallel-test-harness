@@ -8,20 +8,20 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 public class VisibilityOfElementByLocator implements ExpectedCondition<Boolean> {
 
-    private final By locator;
+  private final By locator;
 
-    public VisibilityOfElementByLocator(By locator) {
-        this.locator = locator;
-    }
+  public VisibilityOfElementByLocator(By locator) {
+    this.locator = locator;
+  }
 
-    @Override
-    public Boolean apply(WebDriver d) {
-        try {
-            return d.findElement(locator).isDisplayed();
-        } catch (StaleElementReferenceException | NoSuchElementException e) {
-            return false;
-        } catch (Throwable t) {
-            throw new Error(t);
-        }
+  @Override
+  public Boolean apply(WebDriver d) {
+    try {
+      return d.findElement(locator).isDisplayed();
+    } catch (StaleElementReferenceException | NoSuchElementException e) {
+      return false;
+    } catch (Throwable t) {
+      throw new Error(t);
     }
+  }
 }

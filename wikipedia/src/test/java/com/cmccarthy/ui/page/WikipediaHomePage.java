@@ -9,22 +9,22 @@ import org.openqa.selenium.support.How;
 @PageObject
 public class WikipediaHomePage extends AbstractPage {
 
-    @FindBy(how = How.XPATH, using = "//a[contains(@href,'commons.wikimedia.org')]")
-    private WebElement COMMONS_LOGO;
+  @FindBy(how = How.XPATH, using = "//a[contains(@href,'commons.wikimedia.org')]")
+  private WebElement COMMONS_LOGO;
 
-    @FindBy(how = How.CLASS_NAME, using = "central-featured-logo")
-    private WebElement CENTRAL_LOGO;
+  @FindBy(how = How.CLASS_NAME, using = "central-featured-logo")
+  private WebElement CENTRAL_LOGO;
 
-    public WikipediaHomePage(DriverManager driverManager) {
-        super(driverManager);
-    }
+  public WikipediaHomePage(DriverManager driverManager) {
+    super(driverManager);
+  }
 
-    public void open(String url) {
-        openAt(url);
-    }
+  public void open(String url) {
+    openAt(url);
+  }
 
-    public WebElement getCommonPage() {
-        return COMMONS_LOGO;
-    }
+  public WebElement getCommonPage() {
+    return COMMONS_LOGO;
+  }
 }
 

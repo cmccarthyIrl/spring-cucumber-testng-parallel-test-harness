@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 @Component
 public abstract class AbstractPage {
 
-    @Autowired
-    private DriverManager driverManager;
+  @Autowired
+  private DriverManager driverManager;
 
-    protected AbstractPage(DriverManager driverManager) {
-        PageFactory.initElements(driverManager.getDriver(), this);
-    }
+  protected AbstractPage(DriverManager driverManager) {
+    PageFactory.initElements(driverManager.getDriver(), this);
+  }
 
-    protected void openAt(String url) {
-        driverManager.getDriver().get(url);
-    }
+  protected void openAt(String url) {
+    driverManager.getDriver().get(url);
+  }
 }

@@ -1,7 +1,14 @@
 package com.cmccarthy.ui.utils;
 
 import com.cmccarthy.common.utils.Constants;
-import com.cmccarthy.ui.utils.expectedConditions.*;
+import com.cmccarthy.ui.utils.expectedConditions.ClickabilityOfElement;
+import com.cmccarthy.ui.utils.expectedConditions.ClickabilityOfElementByLocator;
+import com.cmccarthy.ui.utils.expectedConditions.InvisibilityOfElement;
+import com.cmccarthy.ui.utils.expectedConditions.InvisibilityOfElementByLocator;
+import com.cmccarthy.ui.utils.expectedConditions.VisibilityOfElement;
+import com.cmccarthy.ui.utils.expectedConditions.VisibilityOfElementByLocator;
+import java.time.Duration;
+import java.util.NoSuchElementException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -13,162 +20,159 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
-import java.util.NoSuchElementException;
-
 @Component
 public class DriverWait {
 
-    private static final ThreadLocal<Wait<WebDriver>> driverWaitThreadLocal = new ThreadLocal<>();
-    @Autowired
-    @Lazy
-    private DriverManager driverManager;
+  private static final ThreadLocal<Wait<WebDriver>> driverWaitThreadLocal = new ThreadLocal<>();
+  @Autowired
+  @Lazy
+  private DriverManager driverManager;
 
-    public ThreadLocal<Wait<WebDriver>> getDriverWaitThreadLocal() {
-        return driverWaitThreadLocal;
+  public ThreadLocal<Wait<WebDriver>> getDriverWaitThreadLocal() {
+    return driverWaitThreadLocal;
+  }
+
+  public void waitForAngular() {
+    waitUntilAngularReady();
+  }
+
+  public void waitForElementToLoad(WebElement element) throws NoSuchFieldException {
+    waitForAngular();
+    waitForElementVisible(element);
+    waitForElementClickable(element);
+  }
+
+  public void waitForElementToLoad(By locator) throws NoSuchFieldException {
+    waitForAngular();
+    waitForElementVisible(locator);
+    waitForElementClickable(locator);
+  }
+
+  /**
+   * wait for element visible by element
+   */
+  private void waitForElementVisible(WebElement element) {
+    try {
+      waitLong().until(new VisibilityOfElement(element));
+    } catch (Exception ignored) {
     }
+  }
 
-    public void waitForAngular() {
-        waitUntilAngularReady();
+  /**
+   * wait for element visible by locator
+   */
+  private void waitForElementVisible(By locator) {
+    try {
+      waitLong().until(new VisibilityOfElementByLocator(locator));
+    } catch (Exception ignored) {
     }
+  }
 
-    public void waitForElementToLoad(WebElement element) throws NoSuchFieldException {
-        waitForAngular();
-        waitForElementVisible(element);
-        waitForElementClickable(element);
+  /**
+   * wait for element Invisible by locator
+   */
+  private void waitForElementInVisible(By locator) {
+    try {
+      waitLong().until(new InvisibilityOfElementByLocator(locator));
+    } catch (Exception ignored) {
     }
+  }
 
-    public void waitForElementToLoad(By locator) throws NoSuchFieldException {
-        waitForAngular();
-        waitForElementVisible(locator);
-        waitForElementClickable(locator);
+  /**
+   * wait for element Invisible by locator
+   */
+  private void waitForElementInVisible(WebElement element) {
+    try {
+      waitLong().until(new InvisibilityOfElement(element));
+    } catch (Exception ignored) {
     }
+  }
 
-    /**
-     * wait for element visible by element
-     */
-    private void waitForElementVisible(WebElement element) {
-        try {
-            waitLong().until(new VisibilityOfElement(element));
-        } catch (Exception ignored) {
-        }
+  /**
+   * wait for element clickable by element
+   */
+  private void waitForElementClickable(WebElement element) throws NoSuchFieldException {
+    try {
+      waitLong().until(new ClickabilityOfElement(element));
+    } catch (Exception t) {
+      throw new NoSuchFieldException("could not interact with the element " + element);
     }
+  }
 
-    /**
-     * wait for element visible by locator
-     */
-    private void waitForElementVisible(By locator) {
-        try {
-            waitLong().until(new VisibilityOfElementByLocator(locator));
-        } catch (Exception ignored) {
-        }
+  /**
+   * wait for element clickable by locator
+   */
+  private void waitForElementClickable(By locator) throws NoSuchFieldException {
+    try {
+      waitLong().until(new ClickabilityOfElementByLocator(locator));
+    } catch (Exception t) {
+      throw new NoSuchFieldException("could not interact with the element by locator " + locator);
     }
+  }
 
-    /**
-     * wait for element Invisible by locator
-     */
-    private void waitForElementInVisible(By locator) {
-        try {
-            waitLong().until(new InvisibilityOfElementByLocator(locator));
-        } catch (Exception ignored) {
-        }
+  public Wait<WebDriver> waitLong() {
+    return new FluentWait<>(driverManager.getDriver())
+        .withTimeout(Duration.ofSeconds(Constants.timeoutLong))
+        .pollingEvery(Duration.ofMillis(Constants.pollingLong))
+        .ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
+  }
+
+  public Wait<WebDriver> waitShort() {
+    return new FluentWait<>(driverManager.getDriver())
+        .withTimeout(Duration.ofSeconds(Constants.timeoutShort))
+        .pollingEvery(Duration.ofMillis(Constants.pollingShort))
+        .ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
+  }
+
+  private void waitUntilAngularReady() {
+
+
+    final Boolean angularUnDefined = (Boolean) driverManager.getJSExecutor()
+        .executeScript("return window.angular === undefined");
+
+    if (!angularUnDefined) {
+      Boolean angularInjectorUnDefined = (Boolean) driverManager.getJSExecutor()
+          .executeScript("return angular.element(document).injector() === undefined");
+      if (!angularInjectorUnDefined) {
+        waitForAngularLoad();
+        waitUntilJSReady();
+        waitForJQueryLoad();
+      }
     }
+  }
 
-    /**
-     * wait for element Invisible by locator
-     */
-    private void waitForElementInVisible(WebElement element) {
-        try {
-            waitLong().until(new InvisibilityOfElement(element));
-        } catch (Exception ignored) {
-        }
+  private void waitForAngularLoad() {
+    final String angularReadyScript = "return angular.element(document).injector().get('$http').pendingRequests.length === 0";
+    final ExpectedCondition<Boolean> angularLoad = driver -> Boolean.valueOf(
+        (driverManager.getJSExecutor()).executeScript(angularReadyScript).toString());
+    boolean angularReady = Boolean
+        .parseBoolean(driverManager.getJSExecutor().executeScript(angularReadyScript).toString());
+    if (!angularReady) {
+      waitLong().until(angularLoad);
     }
+  }
 
-    /**
-     * wait for element clickable by element
-     */
-    private void waitForElementClickable(WebElement element) throws NoSuchFieldException {
-        try {
-            waitLong().until(new ClickabilityOfElement(element));
-        } catch (Exception t) {
-            throw new NoSuchFieldException("could not interact with the element " + element);
-        }
+  private void waitUntilJSReady() {
+    final ExpectedCondition<Boolean> jsLoad = driver -> (driverManager.getJSExecutor())
+        .executeScript("return document.readyState")
+        .toString()
+        .equals("complete");
+
+    boolean jsReady = driverManager.getJSExecutor().executeScript("return document.readyState")
+        .toString().equals("complete");
+
+    if (!jsReady) {
+      waitLong().until(jsLoad);
     }
+  }
 
-    /**
-     * wait for element clickable by locator
-     */
-    private void waitForElementClickable(By locator) throws NoSuchFieldException {
-        try {
-            waitLong().until(new ClickabilityOfElementByLocator(locator));
-        } catch (Exception t) {
-            throw new NoSuchFieldException("could not interact with the element by locator " + locator);
-        }
+  private void waitForJQueryLoad() {
+    final ExpectedCondition<Boolean> jQueryLoad = driver -> (
+        (Long) (driverManager.getJSExecutor()).executeScript("return jQuery.active") == 0);
+    boolean jqueryReady = (Boolean) driverManager.getJSExecutor()
+        .executeScript("return jQuery.active==0");
+    if (!jqueryReady) {
+      waitLong().until(jQueryLoad);
     }
-
-    public Wait<WebDriver> waitLong() {
-        return new FluentWait<>(driverManager.getDriver())
-                .withTimeout(Duration.ofSeconds(Constants.timeoutLong))
-                .pollingEvery(Duration.ofMillis(Constants.pollingLong))
-                .ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
-    }
-
-    public Wait<WebDriver> waitShort() {
-        return new FluentWait<>(driverManager.getDriver())
-                .withTimeout(Duration.ofSeconds(Constants.timeoutShort))
-                .pollingEvery(Duration.ofMillis(Constants.pollingShort))
-                .ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
-    }
-
-    private void waitUntilAngularReady() {
-
-
-        final Boolean angularUnDefined = (Boolean) driverManager.getJSExecutor()
-                .executeScript("return window.angular === undefined");
-
-        if (!angularUnDefined) {
-            Boolean angularInjectorUnDefined = (Boolean) driverManager.getJSExecutor()
-                    .executeScript("return angular.element(document).injector() === undefined");
-            if (!angularInjectorUnDefined) {
-                waitForAngularLoad();
-                waitUntilJSReady();
-                waitForJQueryLoad();
-            }
-        }
-    }
-
-    private void waitForAngularLoad() {
-        final String angularReadyScript = "return angular.element(document).injector().get('$http').pendingRequests.length === 0";
-        final ExpectedCondition<Boolean> angularLoad = driver -> Boolean.valueOf(
-                (driverManager.getJSExecutor()).executeScript(angularReadyScript).toString());
-        boolean angularReady = Boolean
-                .parseBoolean(driverManager.getJSExecutor().executeScript(angularReadyScript).toString());
-        if (!angularReady) {
-            waitLong().until(angularLoad);
-        }
-    }
-
-    private void waitUntilJSReady() {
-        final ExpectedCondition<Boolean> jsLoad = driver -> (driverManager.getJSExecutor())
-                .executeScript("return document.readyState")
-                .toString()
-                .equals("complete");
-
-        boolean jsReady = driverManager.getJSExecutor().executeScript("return document.readyState")
-                .toString().equals("complete");
-
-        if (!jsReady) {
-            waitLong().until(jsLoad);
-        }
-    }
-
-    private void waitForJQueryLoad() {
-        final ExpectedCondition<Boolean> jQueryLoad = driver -> (
-                (Long) (driverManager.getJSExecutor()).executeScript("return jQuery.active") == 0);
-        boolean jqueryReady = (Boolean) driverManager.getJSExecutor()
-                .executeScript("return jQuery.active==0");
-        if (!jqueryReady) {
-            waitLong().until(jQueryLoad);
-        }
-    }
+  }
 }
