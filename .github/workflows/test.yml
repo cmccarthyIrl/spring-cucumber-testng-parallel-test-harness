@@ -19,25 +19,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      - name: Remove Chrome
-        run: sudo apt purge google-chrome-stable
-      - name: Remove default Chromium
-        run: sudo apt purge chromium-browser
-
-      - name: Install Google Chrome # Using shell script to install Google Chrome
-        run: |
-          chmod +x ./.github/scripts/InstallChrome.sh
-          ./.github/scripts/InstallChrome.sh 
-
-      - name: Install Chrome Driver # Using shell script to install Chrome Driver
-        run: |
-          chmod +x ./.github/scripts/downloadDriver.sh
-          ./.github/scripts/downloadDriver.sh 
 
       - run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
 
-      - name: Build with Maven
+      - name: Test
         run: mvn clean install -DactiveProfile=headless-github
