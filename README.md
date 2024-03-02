@@ -1,4 +1,4 @@
-# Spring - Cucumber - TestNG - Test Harness
+# Cucumber Automated Testing Framework
 
 [![run](https://github.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness/actions/workflows/run.yml/badge.svg)](https://github.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness/actions/workflows/run.yml)
 
