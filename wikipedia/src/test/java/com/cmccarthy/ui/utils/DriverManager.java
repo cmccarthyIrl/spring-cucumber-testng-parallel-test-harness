@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -153,6 +152,7 @@ public class DriverManager {
     }
 
     public boolean isDriverExisting() {
+
         File geckoDriver = new File(Constants.DRIVER_DIRECTORY + "/geckodriver" + getExtension());
         File chromedriver = new File(Constants.DRIVER_DIRECTORY + "/chromedriver" + getExtension());
         return geckoDriver.exists() && chromedriver.exists();
