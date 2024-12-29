@@ -62,8 +62,6 @@ public class DriverManager {
     public void setLocalWebDriver() throws IOException {
         switch (applicationProperties.getBrowser()) {
             case ("chrome") -> {
-//                String path = Arrays.toString(this.environment.getActiveProfiles()).contains("headless-github") ? "/usr/local/share/chromedriver-linux64" : Constants.DRIVER_DIRECTORY;
-
                 String path = Arrays.toString(this.environment.getActiveProfiles()).contains("headless-github") ?
                         System.getProperty("user.dir") + "/src/test/resources/drivers" : Constants.DRIVER_DIRECTORY;
                 ChromeDriverService src = new ChromeDriverService.Builder()
@@ -77,6 +75,7 @@ public class DriverManager {
                 options.addArguments("--disable-logging");
                 options.addArguments("--no-sandbox");
                 options.addArguments("--disable-dev-shm-usage");
+                options.addArguments("--start-maximized");
                 options.addArguments("--headless=new");
                 driverThreadLocal.set(new ChromeDriver(src, options));
             }
