@@ -2,12 +2,10 @@ package com.cmccarthy.ui.utils;
 
 import com.cmccarthy.common.utils.ApplicationProperties;
 import com.cmccarthy.common.utils.Constants;
-import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
@@ -24,14 +22,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import java.io.BufferedReader;
-import java.io.File;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.NoSuchElementException;
 
 @Component
@@ -54,52 +49,37 @@ public class DriverManager {
             } else {
                 setLocalWebDriver();
             }
-            WebDriverRunner.setWebDriver(getDriver());
-            WebDriverRunner.getWebDriver().manage().deleteAllCookies();//useful for AJAX pages
+            getDriver().manage().deleteAllCookies();//useful for AJAX pages
         }
     }
 
     public void setLocalWebDriver() throws IOException {
         switch (applicationProperties.getBrowser()) {
             case ("chrome") -> {
-                String path = Arrays.toString(this.environment.getActiveProfiles()).contains("headless-github") ?
-                        System.getProperty("user.dir") + "/src/test/resources/drivers" : Constants.DRIVER_DIRECTORY;
-                ChromeDriverService src = new ChromeDriverService.Builder()
-                        .usingDriverExecutable(new File(path + "/chromedriver" + getExtension()))
-                        .usingAnyFreePort().build();
-                src.start();
-
-                System.setProperty("webdriver.chrome.driver", path + "/chromedriver" + getExtension());
-
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--disable-logging");
                 options.addArguments("--no-sandbox");
                 options.addArguments("--disable-dev-shm-usage");
                 options.addArguments("--start-maximized");
                 options.addArguments("--headless=new");
-                driverThreadLocal.set(new ChromeDriver(src, options));
+                driverThreadLocal.set(new ChromeDriver(options));
             }
             case ("firefox") -> {
-                System.setProperty("webdriver.gecko.driver", Constants.DRIVER_DIRECTORY + "/geckodriver" + getExtension());
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
-                firefoxOptions.setBinary("C:\\Program Files\\Mozilla Firefox\\firefox.exe");
                 firefoxOptions.setCapability("marionette", true);
                 driverThreadLocal.set(new FirefoxDriver(firefoxOptions));
             }
             case ("ie") -> {
-                System.setProperty("webdriver.ie.driver", Constants.DRIVER_DIRECTORY + "/IEDriverServer" + getExtension());
                 InternetExplorerOptions capabilitiesIE = new InternetExplorerOptions();
                 capabilitiesIE.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
                 driverThreadLocal.set(new InternetExplorerDriver(capabilitiesIE));
             }
             case ("safari") -> {
                 SafariOptions operaOptions = new SafariOptions();
-                System.setProperty("webdriver.opera.driver", Constants.DRIVER_DIRECTORY + "/operadriver" + getExtension());
                 driverThreadLocal.set(new SafariDriver(operaOptions));
             }
             case ("edge") -> {
                 EdgeOptions edgeOptions = new EdgeOptions();
-                System.setProperty("webdriver.edge.driver", Constants.DRIVER_DIRECTORY + "/MicrosoftWebDriver" + getExtension());
                 driverThreadLocal.set(new EdgeDriver(edgeOptions));
             }
             default ->
@@ -146,59 +126,11 @@ public class DriverManager {
         return driverThreadLocal.get();
     }
 
+    public void setDriver(WebDriver driver) {
+        driverThreadLocal.set(driver);
+    }
+
     public JavascriptExecutor getJSExecutor() {
         return (JavascriptExecutor) getDriver();
-    }
-
-    public boolean isDriverExisting() {
-
-        File geckoDriver = new File(Constants.DRIVER_DIRECTORY + "/geckodriver" + getExtension());
-        File chromedriver = new File(Constants.DRIVER_DIRECTORY + "/chromedriver" + getExtension());
-        return geckoDriver.exists() && chromedriver.exists();
-    }
-
-    public void downloadDriver() {
-        if (!Arrays.toString(this.environment.getActiveProfiles()).contains("headless-github")) {
-            try {
-                Process process;
-                if (getOperatingSystem().equals("win")) {
-                    process = Runtime.getRuntime().exec("cmd.exe /c downloadDriver.sh", null,
-                            new File(Constants.COMMON_RESOURCES));
-                } else if (getOperatingSystem().equals("linux")) {
-                    process = Runtime.getRuntime().exec(
-                            new String[]{"sh", "-c", Constants.COMMON_RESOURCES + "/downloadDriver.sh"});
-                } else {
-                    process = Runtime.getRuntime().exec(new String[]{"/bin/sh -c ls", Constants.COMMON_RESOURCES + "/downloadDriver.sh"});
-                }
-                process.waitFor();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                String line = reader.readLine();
-                while (line != null) {
-                    log.debug(line);
-                    line = reader.readLine();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private String getOperatingSystem() {
-        String os = System.getProperty("os.name", "generic").toLowerCase(Locale.ROOT);
-        if (os.contains("mac") || os.contains("darwin")) {
-            return "mac";
-        } else if (os.contains("win")) {
-            return "win";
-        } else {
-            return "linux";
-        }
-    }
-
-    private String getExtension() {
-        String extension = "";
-        if (getOperatingSystem().contains("win")) {
-            return ".exe";
-        }
-        return extension;
     }
 }
