@@ -55,7 +55,7 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <json.version>20240205</json.version>
+        <json.version>20250517</json.version>
         <rest-assured.version>5.5.0</rest-assured.version>
         <cucumber-java.version>7.22.0</cucumber-java.version>
         <cucumber-spring.version>7.22.0</cucumber-spring.version>
