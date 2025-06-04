@@ -17,11 +17,6 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings("unused")
 public class DriverHelper {
 
-//    @Bean
-//    public DriverHelper driverHelper(){
-//        return new DriverHelper();
-//    }
-
     private final Logger logger = LoggerFactory.getLogger(DriverHelper.class);
     private DriverManager driverManager;
     @Autowired
@@ -32,7 +27,7 @@ public class DriverHelper {
      */
     public void sendKeys(WebElement element, String value) {
         if (value != null) {
-            if (value.length() > 0) {
+            if (!value.isEmpty()) {
                 clear(element);
                 element.sendKeys(value);
             } else {
@@ -44,7 +39,7 @@ public class DriverHelper {
     /**
      * Clicks on an element by WebElement
      */
-    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), include = {RetryException.class})
+    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), retryFor =  {RetryException.class})
     public void click(WebElement element) throws NoSuchFieldException {
         try {
             driverWait.waitForElementToLoad(element);
@@ -58,7 +53,7 @@ public class DriverHelper {
     /**
      * Clicks on an element by Locator
      */
-    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), include = {RetryException.class})
+    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), retryFor =  {RetryException.class})
     public void click(By locator) throws NoSuchFieldException {
         try {
             driverWait.waitForElementToLoad(locator);
@@ -72,7 +67,7 @@ public class DriverHelper {
     /**
      * Clicks on an element by Locator
      */
-    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), include = {RetryException.class})
+    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), retryFor = { RetryException.class })
     public void rightClick(By locator) throws NoSuchFieldException {
         driverWait.waitForElementToLoad(locator);
         final WebElement element = driverManager.getDriver().findElement(locator);
@@ -81,17 +76,17 @@ public class DriverHelper {
             builder.moveToElement(element).contextClick(element);
             builder.perform();
         } catch (Exception ser) {
-            logger.warn("Could not click on the element : " + element);
+            logger.warn("Could not right click on the element : " + element);
             throw new RetryException("Could not click on the element : " + element);
         }
     }
 
-    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), include = {RetryException.class})
+    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), retryFor =  {RetryException.class})
     public void scrollElementIntoView(WebElement element) {
         try {
             driverManager.getJSExecutor().executeScript("arguments[0].scrollIntoView(true);", element);
         } catch (Exception ignored) {
-            logger.warn("Could not click on the element : " + element);
+            logger.warn("Could not scroll the element into view" + element);
             throw new RetryException("Could not click on the element : " + element);
         }
     }
@@ -99,7 +94,7 @@ public class DriverHelper {
     /**
      * Clicks on an element by WebElement
      */
-    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), include = {RetryException.class})
+    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), retryFor = {RetryException.class})
     public void rightClick(WebElement element) throws NoSuchFieldException {
         driverWait.waitForElementToLoad(element);
 
@@ -117,7 +112,7 @@ public class DriverHelper {
      * Clicks on an element using Actions
      */
 
-    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), include = {RetryException.class})
+    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), retryFor = {RetryException.class})
     public void clickAction(WebElement element) throws NoSuchFieldException {
         driverWait.waitForElementToLoad(element);
         try {
@@ -125,7 +120,7 @@ public class DriverHelper {
             builder.moveToElement(element).click(element);
             builder.perform();
         } catch (Exception ser) {
-            logger.warn("Could not click on the element");
+            logger.warn("Could not click action on the element");
             throw new RetryException("Could not click on the element : " + element);
         }
     }
@@ -133,7 +128,7 @@ public class DriverHelper {
     /**
      * Clicks on an element using Actions
      */
-    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), include = {RetryException.class})
+    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 500), retryFor =  {RetryException.class})
     public void clickAction(By locator) throws NoSuchFieldException {
         driverWait.waitForElementToLoad(locator);
 
@@ -143,7 +138,7 @@ public class DriverHelper {
             builder.moveToElement(element).click(element);
             builder.perform();
         } catch (Exception ser) {
-            logger.warn("Could not click on the element");
+            logger.warn("Could not click action on the element");
             throw new RetryException("Could not click on the element : " + element);
         }
     }

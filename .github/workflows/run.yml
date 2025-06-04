@@ -3,6 +3,8 @@ name: run
 on:
   pull_request:
     branches: [ "master" ]
+  push:
+    branches: [ "feature/WebDriverManager" ]
 
 jobs:
   build:
@@ -25,12 +27,7 @@ jobs:
       - name: Install Google Chrome # Using shell script to install Google Chrome
         run: |
           chmod +x ./.github/scripts/InstallChrome.sh
-          ./.github/scripts/InstallChrome.sh 
-
-      - name: Install Chrome Driver # Using shell script to install Chrome Driver
-        run: |
-          chmod +x ./.github/scripts/downloadDriver.sh
-          ./.github/scripts/downloadDriver.sh "/wikipedia/src/test/resources/drivers"
+          ./.github/scripts/InstallChrome.sh
 
       - run: |
           export DISPLAY=:99
