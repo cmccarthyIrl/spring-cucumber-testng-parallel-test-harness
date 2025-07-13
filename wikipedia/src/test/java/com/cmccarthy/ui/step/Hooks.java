@@ -14,6 +14,10 @@ import java.io.IOException;
 
 @CucumberContextConfiguration
 public class Hooks extends WikipediaAbstractTestDefinition {
+    
+    private static boolean initialized = false;
+    private static final Object lock = new Object();
+    
     @Autowired
     private LogManager logManager;
     @Autowired
@@ -23,6 +27,15 @@ public class Hooks extends WikipediaAbstractTestDefinition {
 
     @Before
     public void beforeScenario(Scenario scenario) throws IOException {
+        synchronized (lock) {
+            if (!initialized) {
+                if (!driverManager.isDriverExisting()) {
+                    driverManager.downloadDriver();
+                }
+                initialized = true;
+            }
+        }
+        
         String filename = scenario.getName().replaceAll("\\s+", "_");
         logManager.createNewLogger(filename);
         driverManager.createDriver();
@@ -31,9 +44,6 @@ public class Hooks extends WikipediaAbstractTestDefinition {
     @After
     public void afterScenario(Scenario scenario) {
         hookUtil.endOfTest(scenario);
-        if (driverManager.getDriver() != null) {
-            driverManager.getDriver().quit();
-            driverManager.setDriver(null);
-        }
+        driverManager.quitDriver();
     }
 }

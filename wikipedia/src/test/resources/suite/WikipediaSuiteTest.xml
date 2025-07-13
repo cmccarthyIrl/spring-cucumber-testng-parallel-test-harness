@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Run-All-Tests">
+<suite name="Wikipedia-Test-Suite" parallel="methods" thread-count="3" data-provider-thread-count="3">
 
-    <test name="Wikipedia-Suite-1">
+    <test name="Wikipedia-UI-Tests">
         <classes>
             <class name="com.cmccarthy.ui.WikipediaParallelRunnerTest"/>
         </classes>
