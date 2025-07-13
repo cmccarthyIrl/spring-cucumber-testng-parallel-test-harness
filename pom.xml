@@ -68,8 +68,8 @@
         <allure-cucumber7-jvm.version>2.29.1</allure-cucumber7-jvm.version>
         <selenium-java.version>4.33.0</selenium-java.version>
         <maven-remote-resources-plugin.version>3.1.0</maven-remote-resources-plugin.version>
-        <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
-        <surefire.testng.version>3.3.2</surefire.testng.version>
+        <maven.surefire.plugin.version>3.1.2</maven.surefire.plugin.version>
+        <surefire.testng.version>3.2.3</surefire.testng.version>
         <jackson.version>2.19.0</jackson.version>
         <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
         <awaitility.version>4.3.0</awaitility.version>
