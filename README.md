@@ -1,108 +1,383 @@
-# Spring Cucumber TestNG Parallel Test Harness
+# Cucumber Automated Testing Framework
 
-A robust test automation framework built using Spring Boot, Cucumber, and TestNG for parallel test execution. This project demonstrates how to organize and execute automated tests efficiently in parallel across multiple modules.
+[![run](https://github.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness/actions/workflows/run.yml/badge.svg)](https://github.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness/actions/workflows/run.yml)
 
-## 🚀 Features
+# Index
+<table> 
+<tr>
+  <th>Start</th>
+  <td>
+    | <a href="#maven">Maven</a> 
+    | <a href="#quickstart">Quickstart</a> | 
+  </td>
+</tr>
+<tr>
+  <th>Run</th>
+  <td>
+     | <a href="#junit">TestNG</a>
+    | <a href="#command-line">Command Line</a>
+    | <a href="#ide-support">IDE Support</a>    
+    | <a href="#java-jdk">Java JDK</a>    
+    | <a href="#troubleshooting">Troubleshooting</a>    |
+  </td>
+</tr>
+<tr>
+  <th>Report</th> 
+  <td>
+     | <a href="#configuration">Configuration</a> 
+    | <a href="#environment-switching">Environment Switching</a>
+    | <a href="#extent-reports">Spark HTML Reports</a>
+    | <a href="#logging">Logging</a> |
+  </td>
+</tr>
+<tr>
+  <th>Advanced</th>
+  <td>
+    | <a href="#hooks">Before / After Hooks</a>
+    | <a href="#json-transforms">JSON Transforms</a>
+    | <a href="#contributing">Contributing</a> |
+    </td>
+</tr>
+</table>
 
-- **Multi-Module Architecture**: Separate modules for common functionality, weather tests, and Wikipedia tests
-- **Parallel Execution**: Run tests concurrently using TestNG
-- **Spring Boot Integration**: Leverage dependency injection and application properties
-- **Comprehensive Reporting**: Allure and Extent reports for detailed test results
-- **Logging**: Dedicated logs for each test scenario
-- **Cross-Environment Support**: Multiple environment configurations (dev, uat, prod)
+# Maven
 
-## 📋 Requirements
+The Framework uses [Spring Boot Test](https://spring.io/guides/gs/testing-web/), [Cucumber](https://cucumber.io/)
+, [Rest Assured](https://rest-assured.io/) and [Selenium](https://www.selenium.dev/) client implementations.
 
-- Java 11 or higher
-- Maven 3.6 or higher
-- Git
+Spring `<dependencies>`:
 
-## 🔧 Setup & Installation
+```xml
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness.git
-   cd spring-cucumber-testng-parallel-test-harness
-   ```
-
-2. Install dependencies:
-   ```bash
-   mvn clean install -DskipTests
-   ```
-
-## 🏃‍♂️ Running Tests
-
-### Running All Tests
-```bash
-mvn clean test
+<dependecies>
+    ...
+    <dependency>
+        <groupId>org.springframework.amqp</groupId>
+        <artifactId>spring-rabbit</artifactId>
+        <version>${spring-rabbit.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-test</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+    </dependency>
+    ...
+</dependecies>
 ```
 
-### Running Tests for a Specific Module
-```bash
-mvn clean test -pl weather
-# or
-mvn clean test -pl wikipedia
+Cucumber & Rest Assured `<dependencies>`:
+
+```xml
+
+<dependecies>
+    ...
+    <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>rest-assured</artifactId>
+        <version>${restassured.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-java</artifactId>
+        <version>${cucumber.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-spring</artifactId>
+        <version>${cucumber.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-testng</artifactId>
+        <version>${cucumber.version}</version>
+    </dependency>
+    ...
+</dependecies>
 ```
 
-### Running with Specific Environment
-```bash
-mvn clean test -Dspring.profiles.active=dev
+Selenium `<dependencies>`:
+
+```xml
+
+<dependecies>
+    ...
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>${selenium-version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-server</artifactId>
+        <version>${selenium-version}</version>
+    </dependency>
+    ...
+</dependecies>
 ```
 
-Available profiles: `dev`, `uat`, `prod`, `headless-github`, `cloud-provider`
+# Quickstart
 
-## 📊 Reporting
+- [Intellij IDE](https://www.jetbrains.com/idea/) - `Recommended`
+- [Java JDK 17](https://jdk.java.net/java-se-ri/11)
+- [Apache Maven](https://maven.apache.org/docs/3.6.3/release-notes.html)
 
-After test execution, reports are available at:
+# TestNG
 
-- **Allure Reports**: `<module>/target/allure-results/`
-- **Extent Reports**: `<module>/target/cucumber/report.html`
-- **TestNG Reports**: `<module>/target/surefire-reports/index.html`
+By using the [TestNG Framework](https://junit.org/junit4/) we can utilize the [Cucumber Framework](https://cucumber.io/)
+and the `@CucumberOptions` Annotation Type to execute the `*.feature` file tests
 
-To generate and open Allure reports:
-```bash
-mvn allure:serve
+> Right click the `WikipediParallelRunner` class and select `Run`
+
+```java
+
+@CucumberOptions(
+        features = {
+                "src/test/resources/feature"
+        },
+        plugin = {
+                "pretty",
+                "json:target/cucumber/report.json",
+                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
+        })
+public class WikipediaParallelRunnerTest extends AbstractTestNGCucumberTests {
+
+    @Override
+    @DataProvider(parallel = true)
+    public Object[][] scenarios() {
+        return super.scenarios();
+    }
+
+}
 ```
 
-## 📁 Project Structure
+# Command Line
 
-- **common**: Shared utilities, base classes, and configurations
-  - Configuration properties
-  - Common test utilities
-  - Shared step definitions
-  
-- **weather**: Weather API testing module
-  - Feature files for weather API tests
-  - Step definitions for weather tests
-  - API client for weather services
+Normally you will use your IDE to run a `*.feature` file directly or via the `*Test.java` class. With the `Test` class,
+we can run tests from the command-line as well.
 
-- **wikipedia**: Wikipedia functionality tests
-  - Feature files for Wikipedia tests
-  - Step definitions for Wikipedia interactions
-  - Page objects for Wikipedia pages
+Note that the `mvn test` command only runs test classes that follow the `*Test.java` naming convention.
 
-## 🌐 Environment Configuration
+You can run a single test or a suite or tests like so :
 
-The framework supports multiple environments through Spring profiles:
+```
+mvn test -Dtest=WikipediaParallelRunnerTest
+```
 
-- **dev**: Development environment
-- **uat**: User Acceptance Testing environment
-- **prod**: Production environment
-- **headless-github**: Headless browser configuration for CI/CD
-- **cloud-provider**: Configuration for cloud-based test execution
+Note that the `mvn clean install` command runs all test Classes that follow the `*Test.java` naming convention
 
-## 📝 Logging
+```
+mvn clean install
+```
 
-Test execution logs are stored in the `logs` directory of each module. Log files are named after the test scenario for easy debugging.
+# IDE Support
 
-## 🤝 Contributing
+To minimize the discrepancies between IDE versions and Locales the `<sourceEncoding>` is set to `UTF-8`
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+```xml
 
-## 📄 License
+<properties>
+    ...
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    ...
+</properties>
+```
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+# Java JDK
 
-## 👥 Maintainers
+The Java version to use is defined in the `maven-compiler-plugin`
 
-- [cmccarthyIrl](https://github.com/cmccarthyIrl)
+```xml
+
+<build>
+    ...
+    <pluginManagement>
+        <plugins>
+            ...
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
+            </plugin>
+            ...
+        </plugins>
+    </pluginManagement>
+    ...
+</build>
+```
+
+# Configuration
+
+The `AbstractTestDefinition` class is responsible for specifying each Step class as `@SpringBootTest` and
+its `@ContextConfiguration`
+
+```java
+
+@ContextConfiguration(classes = {FrameworkContextConfiguration.class})
+@SpringBootTest
+public class AbstractTestDefinition {
+}
+```
+
+The `FrameworkContextConfiguration` class is responsible for specifying the Spring `@Configuration`, modules to scan,
+properties to use etc
+
+```java
+
+@EnableRetry
+@Configuration
+@ComponentScan({
+        "com.cmccarthy.api", "com.cmccarthy.common",
+})
+@PropertySource("application.properties")
+public class FrameworkContextConfiguration {
+}
+```
+
+# Environment Switching
+
+There is only one thing you need to do to switch the environment - which is to set `<activeByDefault>` property in the
+Master POM.
+
+> By default, the value of `spring.profiles.active` is defined in the `application.properties` file which inherits its
+> value from the Master POM property `<activeByDefault>`
+
+```xml
+
+<profiles>
+    ...
+    <profile>
+        <id>prod</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <properties>
+            <activatedProperties>prod</activatedProperties>
+        </properties>
+    </profile>
+    ...
+</profiles>
+```
+
+You can then specify the profile to use when running Maven from the command line like so:
+
+```
+mvn clean install -DactiveProfile=github-headless
+```
+
+Below is an example of the `application.properties` file.
+
+```properties
+spring.profiles.active=@activatedProperties@
+```
+
+# Extent Reports
+
+The Framework uses [Extent Reports Framework](https://extentreports.com/) to generate the HTML Test Reports
+
+The example below is a report generated automatically by Extent Reports open-source library.
+
+<img src="https://github.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness/blob/master/common/src/main/resources/demo/extent-report.jpg" height="400px"/>
+
+# Allure Reports
+
+The Framework uses [Allure Reports](https://docs.qameta.io/allure/) to generate the HTML Test Reports
+
+The example below is a report generated by Allure Reports open-source library.
+
+<img src="https://github.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness/blob/master/common/src/main/resources/demo/allure-report.png" height="400px"/>
+
+To generate the above report navigate to the root directory of the module under test and execute the following command
+
+`mvn allure:serve`  or `mvn allure:generate` (for an offline report)
+
+# Logging
+
+The Framework uses [Log4j2](https://logging.apache.org/log4j/2.x/) You can instantiate the logging service in any Class
+like so
+
+```java
+private final Logger logger=LoggerFactory.getLogger(WikipediaPageSteps.class);
+```
+
+you can then use the logger like so :
+
+```java
+logger.info("This is a info message");
+        logger.warn("This is a warning message");
+        logger.debug("This is a info message");
+        logger.error("This is a error message");
+```
+
+# Before / After Hooks
+
+The [Logback](http://logback.qos.ch/) logging service is initialized from the `Hooks.class`
+
+As the Cucumber Hooks are implemented by all steps we can configure the `@CucumberContextConfiguration` like so :
+
+```java
+
+@CucumberContextConfiguration
+public class Hooks extends AbstractTestDefinition {
+
+    private static boolean initialized = false;
+    private static final Object lock = new Object();
+
+    @Autowired
+    private HookUtil hookUtil;
+    @Autowired
+    private DriverManager driverManager;
+
+    @Before
+    public void beforeScenario(Scenario scenario) {
+        synchronized (lock) {
+            if (!initialized) {
+                if (!driverManager.isDriverExisting()) {
+                    driverManager.downloadDriver();
+                }
+                initialized = true;
+            }
+        }
+        driverManager.createDriver();
+    }
+
+    @After
+    public void afterScenario(Scenario scenario) {
+        hookUtil.endOfTest(scenario);
+        WebDriverRunner.closeWebDriver();
+    }
+}
+```
+
+# JSON Transforms
+
+[Rest Assured IO](https://rest-assured.io/) is used to map the `Response` Objects to their respective `POJO` Classes
+
+```xml
+
+<dependency>
+    <groupId>io.rest-assured</groupId>
+    <artifactId>rest-assured</artifactId>
+    <version>3.0.0</version>
+</dependency>
+```
+
+# Troubleshooting
+
+- Execute the following commands to resolve any dependency issues
+    1. `cd ~/install directory path/spring-cucumber-testng-parallel-test-harness`
+    2. `mvn clean install -DskipTests`
+
+# Contributing
+
+Spotted a mistake? Questions? Suggestions?
+
+[Open an Issue](https://github.com/cmccarthyIrl/spring-cucumber-testng-parallel-test-harness/issues)
+
+
