@@ -26,6 +26,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,6 +39,7 @@ import java.util.NoSuchElementException;
 public class DriverManager {
 
     private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<String> userDataDirThreadLocal = new ThreadLocal<>();
     private final Logger log = LoggerFactory.getLogger(DriverManager.class);
 
     @Autowired
@@ -125,12 +129,33 @@ public class DriverManager {
 
     private ChromeOptions getChromeOptions() {
         ChromeOptions options = new ChromeOptions();
+        
+        // Essential arguments for stability and parallel execution
         options.addArguments("--disable-logging");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
         options.addArguments("--disable-extensions");
         options.addArguments("--start-maximized");
+        options.addArguments("--disable-web-security");
+        options.addArguments("--allow-running-insecure-content");
+        options.addArguments("--disable-features=VizDisplayCompositor");
+        options.addArguments("--remote-debugging-port=0"); // Use random available port
+        options.addArguments("--disable-background-timer-throttling");
+        options.addArguments("--disable-backgrounding-occluded-windows");
+        options.addArguments("--disable-renderer-backgrounding");
+        
+        // Create unique user data directory for parallel execution
+        String uniqueUserDataDir = System.getProperty("java.io.tmpdir") + 
+            "chrome_user_data_" + Thread.currentThread().getId() + "_" + System.currentTimeMillis();
+        options.addArguments("--user-data-dir=" + uniqueUserDataDir);
+        
+        // Store the user data directory path for cleanup later
+        userDataDirThreadLocal.set(uniqueUserDataDir);
+        
+        // Prevent Chrome from creating crash dumps
+        options.addArguments("--disable-crash-reporter");
+        options.addArguments("--disable-in-process-stack-traces");
         
         if (isHeadlessMode()) {
             options.addArguments("--headless=new");
@@ -147,7 +172,12 @@ public class DriverManager {
         Map<String, Object> prefs = new HashMap<>();
         prefs.put("profile.default_content_setting_values.notifications", 2);
         prefs.put("profile.default_content_settings.popups", 0);
+        prefs.put("profile.managed_default_content_settings.images", 2); // Block images for faster loading
         options.setExperimentalOption("prefs", prefs);
+        
+        // Additional performance settings
+        options.setExperimentalOption("useAutomationExtension", false);
+        options.addArguments("--disable-blink-features=AutomationControlled");
         
         return options;
     }
@@ -253,9 +283,49 @@ public class DriverManager {
             } catch (Exception e) {
                 log.warn("Error while quitting WebDriver: {}", e.getMessage());
             } finally {
+                // Clean up temporary user data directory
+                cleanupUserDataDirectory();
+                
+                // Remove ThreadLocal references
                 driverThreadLocal.remove();
+                userDataDirThreadLocal.remove();
                 driverWait.getDriverWaitThreadLocal().remove();
             }
+        }
+    }
+    
+    /**
+     * Clean up temporary Chrome user data directory
+     */
+    private void cleanupUserDataDirectory() {
+        String userDataDir = userDataDirThreadLocal.get();
+        if (userDataDir != null) {
+            try {
+                Path userDataPath = Paths.get(userDataDir);
+                if (Files.exists(userDataPath)) {
+                    deleteDirectoryRecursively(userDataPath);
+                    log.debug("Cleaned up Chrome user data directory: {}", userDataDir);
+                }
+            } catch (Exception e) {
+                log.warn("Failed to clean up Chrome user data directory {}: {}", userDataDir, e.getMessage());
+            }
+        }
+    }
+    
+    /**
+     * Recursively delete directory and its contents
+     */
+    private void deleteDirectoryRecursively(Path path) throws IOException {
+        if (Files.exists(path)) {
+            Files.walk(path)
+                .sorted((a, b) -> b.compareTo(a)) // Delete files first, then directories
+                .forEach(p -> {
+                    try {
+                        Files.deleteIfExists(p);
+                    } catch (IOException e) {
+                        log.warn("Failed to delete: {}", p.toString());
+                    }
+                });
         }
     }
 
