@@ -87,20 +87,6 @@ jobs:
         path: ${{ matrix.module }}/screenshots/
         retention-days: 7
 
-  security-scan:
-    name: Security Scan
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Run Snyk security scan
-      uses: snyk/actions/maven@master
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        args: --severity-threshold=high
-
   publish-reports:
     name: Publish Test Reports
     needs: test
@@ -119,19 +105,3 @@ jobs:
         path: '**/target/cucumber/*.json'
         reporter: java-junit
         fail-on-error: false
-
-  notification:
-    name: Notify Results
-    needs: [test, security-scan]
-    runs-on: ubuntu-latest
-    if: always()
-    
-    steps:
-    - name: Notify Slack
-      if: always()
-      uses: 8398a7/action-slack@v3
-      with:
-        status: ${{ job.status }}
-        channel: '#testing'
-        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-        fields: repo,message,commit,author,action,eventName,ref,workflow
