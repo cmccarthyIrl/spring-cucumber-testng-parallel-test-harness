@@ -27,15 +27,6 @@ public class Hooks extends WikipediaAbstractTestDefinition {
 
     @Before
     public void beforeScenario(Scenario scenario) throws IOException {
-        synchronized (lock) {
-            if (!initialized) {
-                if (!driverManager.isDriverExisting()) {
-                    driverManager.downloadDriver();
-                }
-                initialized = true;
-            }
-        }
-        
         String filename = scenario.getName().replaceAll("\\s+", "_");
         logManager.createNewLogger(filename);
         driverManager.createDriver();
