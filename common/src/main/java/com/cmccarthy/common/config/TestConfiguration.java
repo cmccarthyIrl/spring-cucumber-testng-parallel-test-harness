@@ -18,13 +18,13 @@ public class TestConfiguration {
     private boolean takeScreenshotOnFailure = true;
     private boolean enableDetailedReporting = true;
     private String defaultBrowser = "chrome";
-    
+
     // Parallel execution settings
     private ParallelExecution parallelExecution = new ParallelExecution();
-    
+
     // API testing settings
     private ApiConfig api = new ApiConfig();
-    
+
     // UI testing settings
     private UiConfig ui = new UiConfig();
 

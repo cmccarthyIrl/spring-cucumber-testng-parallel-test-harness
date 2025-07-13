@@ -54,7 +54,7 @@ public class DriverManager {
                 setLocalWebDriver();
             }
             getDriver().manage().deleteAllCookies();//useful for AJAX pages
-            
+
             // Set the window size if specified in the configuration
             if (testConfig.getUi().getWindowSize() != null && !testConfig.getUi().getWindowSize().isEmpty()) {
                 String[] dimensions = testConfig.getUi().getWindowSize().split("x");
@@ -75,7 +75,7 @@ public class DriverManager {
     public void setLocalWebDriver() {
         String browser = applicationProperties.getBrowser();
         boolean isHeadless = testConfig.getUi().isHeadless();
-        
+
         switch (browser) {
             case ("chrome") -> {
                 ChromeOptions options = new ChromeOptions();
@@ -111,18 +111,17 @@ public class DriverManager {
                 }
                 driverThreadLocal.set(new EdgeDriver(edgeOptions));
             }
-            default ->
-                    throw new NoSuchElementException("Failed to create an instance of WebDriver for: " + browser);
+            default -> throw new NoSuchElementException("Failed to create an instance of WebDriver for: " + browser);
         }
-        
+
         // Configure WebDriver timeouts
         WebDriver driver = driverThreadLocal.get();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(testConfig.getUi().getImplicitWait()));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(testConfig.getUi().getPageLoadTimeout()));
-        
+
         driverWait.getDriverWaitThreadLocal()
-                .set(new WebDriverWait(driver, 
-                        Duration.ofSeconds(testConfig.getTimeoutSeconds()), 
+                .set(new WebDriverWait(driver,
+                        Duration.ofSeconds(testConfig.getTimeoutSeconds()),
                         Duration.ofMillis(Constants.pollingShort)));
     }
 
@@ -130,7 +129,7 @@ public class DriverManager {
         Capabilities capability;
         String browser = applicationProperties.getBrowser();
         boolean isHeadless = testConfig.getUi().isHeadless();
-        
+
         switch (browser) {
             case "firefox" -> {
                 FirefoxOptions options = new FirefoxOptions();
@@ -166,15 +165,15 @@ public class DriverManager {
             default ->
                     throw new NoSuchElementException("Failed to create an instance of RemoteWebDriver for: " + browser);
         }
-        
+
         // Configure WebDriver timeouts
         WebDriver driver = driverThreadLocal.get();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(testConfig.getUi().getImplicitWait()));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(testConfig.getUi().getPageLoadTimeout()));
-        
+
         driverWait.getDriverWaitThreadLocal()
-                .set(new WebDriverWait(driver, 
-                        Duration.ofSeconds(testConfig.getTimeoutSeconds()), 
+                .set(new WebDriverWait(driver,
+                        Duration.ofSeconds(testConfig.getTimeoutSeconds()),
                         Duration.ofMillis(Constants.pollingShort)));
     }
 

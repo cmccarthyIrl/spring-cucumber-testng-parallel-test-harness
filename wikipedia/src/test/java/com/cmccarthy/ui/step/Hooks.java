@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @CucumberContextConfiguration
 public class Hooks extends WikipediaAbstractTestDefinition {
-    
+
     @Autowired
     private LogManager logManager;
     @Autowired

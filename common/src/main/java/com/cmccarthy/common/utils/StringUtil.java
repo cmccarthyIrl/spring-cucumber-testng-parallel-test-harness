@@ -17,7 +17,7 @@ public class StringUtil {
     /**
      * Generates a random string from the given character set.
      *
-     * @param length the length of the string to generate
+     * @param length  the length of the string to generate
      * @param charset the character set to use
      * @return a random string
      */
