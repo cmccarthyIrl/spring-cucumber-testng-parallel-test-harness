@@ -1,38 +1,121 @@
-name: run
+name: Enhanced CI/CD Pipeline
 
 on:
-  pull_request:
-    branches: [ "master" ]
   push:
-    branches: [ "feature/WebDriverManager" ]
+    branches: [ feature/wip ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  JAVA_VERSION: '17'
+  MAVEN_OPTS: '-Xmx2048m'
 
 jobs:
-  build:
-
+  test:
+    name: Run Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        module: [weather, wikipedia]
+        browser: [chrome, firefox]
+      fail-fast: false
+      max-parallel: 4
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
-      - name: Remove Chrome
-        run: sudo apt purge google-chrome-stable
-      - name: Remove default Chromium
-        run: sudo apt purge chromium-browser
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Install Google Chrome # Using shell script to install Google Chrome
-        run: |
-          chmod +x ./.github/scripts/InstallChrome.sh
-          ./.github/scripts/InstallChrome.sh
+    - name: Set up JDK ${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+        cache: maven
 
-      - run: |
-          export DISPLAY=:99
-          chromedriver --url-base=/wd/hub &
-          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+    - name: Cache Maven dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
 
-      - name: Test
-        run: mvn clean install -DactiveProfile=headless-github
+    - name: Setup Chrome
+      if: matrix.browser == 'chrome'
+      uses: browser-actions/setup-chrome@v1
+      with:
+        chrome-version: stable
+
+    - name: Setup Firefox
+      if: matrix.browser == 'firefox'
+      uses: browser-actions/setup-firefox@v1
+      with:
+        firefox-version: latest
+
+    - name: Compile project
+      run: mvn clean compile test-compile
+
+    - name: Run ${{ matrix.module }} tests with ${{ matrix.browser }}
+      run: |
+        cd ${{ matrix.module }}
+        mvn test -Dbrowser=${{ matrix.browser }} -Dtest.ui.headless=true -Dspring.profiles.active=headless-github
+      env:
+        BROWSER: ${{ matrix.browser }}
+        HEADLESS: true
+
+    - name: Generate Allure Report
+      if: always()
+      run: |
+        cd ${{ matrix.module }}
+        mvn allure:report
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results-${{ matrix.module }}-${{ matrix.browser }}
+        path: |
+          ${{ matrix.module }}/target/allure-results/
+          ${{ matrix.module }}/target/cucumber/
+          ${{ matrix.module }}/logs/
+        retention-days: 30
+
+    - name: Upload screenshots on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: screenshots-${{ matrix.module }}-${{ matrix.browser }}
+        path: ${{ matrix.module }}/screenshots/
+        retention-days: 7
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Run Snyk security scan
+      uses: snyk/actions/maven@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --severity-threshold=high
+
+  publish-reports:
+    name: Publish Test Reports
+    needs: test
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      
+    - name: Publish Test Report
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Test Results
+        path: '**/target/cucumber/*.json'
+        reporter: java-junit
+        fail-on-error: false

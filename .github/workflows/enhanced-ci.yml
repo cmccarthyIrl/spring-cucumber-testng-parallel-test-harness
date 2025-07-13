@@ -2,11 +2,9 @@ name: Enhanced CI/CD Pipeline
 
 on:
   push:
-    branches: [ master, develop ]
+    branches: [ feature/wip ]
   pull_request:
-    branches: [ master ]
-  schedule:
-    - cron: '0 2 * * *'  # Daily at 2 AM
+    branches: [ main, develop ]
 
 env:
   JAVA_VERSION: '17'
