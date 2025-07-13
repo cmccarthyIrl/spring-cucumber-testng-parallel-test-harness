@@ -20,11 +20,13 @@ jobs:
       matrix:
         java: [17]
         os: [ubuntu-latest, ubuntu-22.04]
+        browser: [chrome, firefox]
       fail-fast: false
 
     env:
       DISPLAY: ':99'
       MAVEN_OPTS: '-Xmx2048m'
+      BROWSER: ${{ matrix.browser }}
 
     steps:
       - uses: actions/checkout@v4.1.7
@@ -46,9 +48,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Set up Chrome
+        if: matrix.browser == 'chrome'
         uses: browser-actions/setup-chrome@v1.7.2
         with:
           chrome-version: stable
+          
+      - name: Set up Firefox
+        if: matrix.browser == 'firefox'
+        uses: browser-actions/setup-firefox@v1.5.2
+        with:
+          firefox-version: latest
           
       - name: Start Xvfb
         run: |
@@ -61,12 +70,18 @@ jobs:
           java -version
           echo "Maven version:"
           mvn -version
-          echo "Chrome version:"
-          google-chrome --version
+          echo "Browser: ${{ matrix.browser }}"
+          if [ "${{ matrix.browser }}" = "chrome" ]; then
+            echo "Chrome version:"
+            google-chrome --version
+          elif [ "${{ matrix.browser }}" = "firefox" ]; then
+            echo "Firefox version:"
+            firefox --version
+          fi
           echo "Display: $DISPLAY"
 
       - name: Test
-        run: mvn clean install -P headless-github -B -T 1C
+        run: mvn clean install -P headless-github -B -T 1C -Dbrowser=${{ matrix.browser }}
         continue-on-error: false
         timeout-minutes: 20
         
@@ -74,7 +89,7 @@ jobs:
         uses: actions/upload-artifact@v4.4.0
         if: always()
         with:
-          name: test-reports-java${{ matrix.java }}-${{ matrix.os }}
+          name: test-reports-java${{ matrix.java }}-${{ matrix.os }}-${{ matrix.browser }}
           path: |
             **/target/surefire-reports/
             **/target/allure-results/
@@ -86,7 +101,7 @@ jobs:
         uses: actions/upload-artifact@v4.4.0
         if: failure()
         with:
-          name: screenshots-java${{ matrix.java }}-${{ matrix.os }}
+          name: screenshots-java${{ matrix.java }}-${{ matrix.os }}-${{ matrix.browser }}
           path: |
             **/target/screenshots/
             **/target/test-output/
@@ -97,3 +112,4 @@ jobs:
         run: |
           pkill -f Xvfb || true
           pkill -f chrome || true
+          pkill -f firefox || true
