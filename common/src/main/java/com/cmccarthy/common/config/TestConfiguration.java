@@ -1,12 +1,17 @@
 package com.cmccarthy.common.config;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+@Setter
+@Getter
 @Configuration
 @ConfigurationProperties(prefix = "test")
 public class TestConfiguration {
 
+    // Main getters and setters
     private int maxRetries = 3;
     private int threadCount = 4;
     private int timeoutSeconds = 30;
@@ -23,74 +28,34 @@ public class TestConfiguration {
     // UI testing settings
     private UiConfig ui = new UiConfig();
 
+    @Setter
+    @Getter
     public static class ParallelExecution {
+        // getters and setters
         private boolean enabled = true;
         private int threadPoolSize = 4;
         private int dataProviderThreadCount = 4;
-        
-        // getters and setters
-        public boolean isEnabled() { return enabled; }
-        public void setEnabled(boolean enabled) { this.enabled = enabled; }
-        public int getThreadPoolSize() { return threadPoolSize; }
-        public void setThreadPoolSize(int threadPoolSize) { this.threadPoolSize = threadPoolSize; }
-        public int getDataProviderThreadCount() { return dataProviderThreadCount; }
-        public void setDataProviderThreadCount(int dataProviderThreadCount) { this.dataProviderThreadCount = dataProviderThreadCount; }
     }
 
+    @Setter
+    @Getter
     public static class ApiConfig {
+        // getters and setters
         private int connectionTimeout = 30000;
         private int socketTimeout = 30000;
         private int maxRetries = 3;
         private boolean logRequestResponse = false;
-        
-        // getters and setters
-        public int getConnectionTimeout() { return connectionTimeout; }
-        public void setConnectionTimeout(int connectionTimeout) { this.connectionTimeout = connectionTimeout; }
-        public int getSocketTimeout() { return socketTimeout; }
-        public void setSocketTimeout(int socketTimeout) { this.socketTimeout = socketTimeout; }
-        public int getMaxRetries() { return maxRetries; }
-        public void setMaxRetries(int maxRetries) { this.maxRetries = maxRetries; }
-        public boolean isLogRequestResponse() { return logRequestResponse; }
-        public void setLogRequestResponse(boolean logRequestResponse) { this.logRequestResponse = logRequestResponse; }
     }
 
+    @Setter
+    @Getter
     public static class UiConfig {
+        // getters and setters
         private boolean headless = true;
         private int implicitWait = 10;
         private int pageLoadTimeout = 30;
         private String windowSize = "1920x1080";
         private boolean enableVideoRecording = false;
-        
-        // getters and setters
-        public boolean isHeadless() { return headless; }
-        public void setHeadless(boolean headless) { this.headless = headless; }
-        public int getImplicitWait() { return implicitWait; }
-        public void setImplicitWait(int implicitWait) { this.implicitWait = implicitWait; }
-        public int getPageLoadTimeout() { return pageLoadTimeout; }
-        public void setPageLoadTimeout(int pageLoadTimeout) { this.pageLoadTimeout = pageLoadTimeout; }
-        public String getWindowSize() { return windowSize; }
-        public void setWindowSize(String windowSize) { this.windowSize = windowSize; }
-        public boolean isEnableVideoRecording() { return enableVideoRecording; }
-        public void setEnableVideoRecording(boolean enableVideoRecording) { this.enableVideoRecording = enableVideoRecording; }
     }
 
-    // Main getters and setters
-    public int getMaxRetries() { return maxRetries; }
-    public void setMaxRetries(int maxRetries) { this.maxRetries = maxRetries; }
-    public int getThreadCount() { return threadCount; }
-    public void setThreadCount(int threadCount) { this.threadCount = threadCount; }
-    public int getTimeoutSeconds() { return timeoutSeconds; }
-    public void setTimeoutSeconds(int timeoutSeconds) { this.timeoutSeconds = timeoutSeconds; }
-    public boolean isTakeScreenshotOnFailure() { return takeScreenshotOnFailure; }
-    public void setTakeScreenshotOnFailure(boolean takeScreenshotOnFailure) { this.takeScreenshotOnFailure = takeScreenshotOnFailure; }
-    public boolean isEnableDetailedReporting() { return enableDetailedReporting; }
-    public void setEnableDetailedReporting(boolean enableDetailedReporting) { this.enableDetailedReporting = enableDetailedReporting; }
-    public String getDefaultBrowser() { return defaultBrowser; }
-    public void setDefaultBrowser(String defaultBrowser) { this.defaultBrowser = defaultBrowser; }
-    public ParallelExecution getParallelExecution() { return parallelExecution; }
-    public void setParallelExecution(ParallelExecution parallelExecution) { this.parallelExecution = parallelExecution; }
-    public ApiConfig getApi() { return api; }
-    public void setApi(ApiConfig api) { this.api = api; }
-    public UiConfig getUi() { return ui; }
-    public void setUi(UiConfig ui) { this.ui = ui; }
 }

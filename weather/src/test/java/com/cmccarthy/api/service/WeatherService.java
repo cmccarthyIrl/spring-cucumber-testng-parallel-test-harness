@@ -5,6 +5,7 @@ import com.cmccarthy.common.service.StepDefinitionDataManager;
 import com.cmccarthy.common.utils.ApplicationProperties;
 import com.cmccarthy.common.utils.LogManager;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +22,14 @@ public class WeatherService {
     private StepDefinitionDataManager stepDefinitionDataManager;
     @Autowired
     private ApplicationProperties applicationProperties;
+    private Response response;
 
     public void getWeatherForLocation(String location) {
-        Response response = restService.getRequestSpecification()
-                .param("q", location)
-                .param("appid", "0a1b11f110d4b6cd43181d23d724cb94")
-                .get(applicationProperties.getWeatherAppUrl());
+
+        final RequestSpecification requestSpecification = restService.getRequestSpecification().param("q", location)
+                .param("appid", "0a1b11f110d4b6cd43181d23d724cb94");
+
+        Response response = restService.executeWithRetry(requestSpecification, "GET", applicationProperties.getWeatherAppUrl());
 
         stepDefinitionDataManager.addToStoredObjectMap("class", response);
 

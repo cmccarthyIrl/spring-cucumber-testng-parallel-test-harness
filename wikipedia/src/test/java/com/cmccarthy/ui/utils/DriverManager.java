@@ -72,7 +72,7 @@ public class DriverManager {
         }
     }
 
-    public void setLocalWebDriver() throws IOException {
+    public void setLocalWebDriver() {
         String browser = applicationProperties.getBrowser();
         boolean isHeadless = testConfig.getUi().isHeadless();
         
@@ -181,10 +181,6 @@ public class DriverManager {
 
     public WebDriver getDriver() {
         return driverThreadLocal.get();
-    }
-
-    public void setDriver(WebDriver driver) {
-        driverThreadLocal.set(driver);
     }
 
     public JavascriptExecutor getJSExecutor() {

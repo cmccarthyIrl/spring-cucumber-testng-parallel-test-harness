@@ -35,13 +35,11 @@ public class RestService {
 
     private void setupRestAssuredConfig() {
         TestConfiguration.ApiConfig apiConfig = testConfiguration.getApi();
-        
-        RestAssuredConfig config = RestAssuredConfig.config()
+
+        RestAssured.config = RestAssuredConfig.config()
                 .httpClient(HttpClientConfig.httpClientConfig()
                         .setParam("http.connection.timeout", apiConfig.getConnectionTimeout())
                         .setParam("http.socket.timeout", apiConfig.getSocketTimeout()));
-
-        RestAssured.config = config;
         
         if (apiConfig.isLogRequestResponse() && logManager != null) {
             RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
@@ -60,23 +58,13 @@ public class RestService {
             logManager.info("Executing " + method + " request to: " + endpoint);
         }
         
-        Response response;
-        switch (method.toUpperCase()) {
-            case "GET":
-                response = request.get(endpoint);
-                break;
-            case "POST":
-                response = request.post(endpoint);
-                break;
-            case "PUT":
-                response = request.put(endpoint);
-                break;
-            case "DELETE":
-                response = request.delete(endpoint);
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported HTTP method: " + method);
-        }
+        Response response = switch (method.toUpperCase()) {
+            case "GET" -> request.get(endpoint);
+            case "POST" -> request.post(endpoint);
+            case "PUT" -> request.put(endpoint);
+            case "DELETE" -> request.delete(endpoint);
+            default -> throw new IllegalArgumentException("Unsupported HTTP method: " + method);
+        };
 
         if (logManager != null) {
             logManager.info("Response status: " + response.getStatusCode());

@@ -1,8 +1,10 @@
 package com.cmccarthy.common.utils;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+@Getter
 @Component
 public class ApplicationProperties {
 
@@ -15,31 +17,16 @@ public class ApplicationProperties {
     @Value("${gridUrl}")
     private String gridUrl;
 
-    public String getWeatherAppUrl() {
-        return weatherAppUrl;
-    }
-
     public void setWeatherAppUrl(String weatherAppUrl) {
         this.weatherAppUrl = weatherAppUrl;
-    }
-
-    public String getWikipediaUrl() {
-        return wikipediaUrl;
     }
 
     public void setWikipediaUrl(String wikipediaUrl) {
         this.wikipediaUrl = wikipediaUrl;
     }
 
-    public String getBrowser() {
-        return browser;
-    }
-
     public void setBrowser(String browser) {
         this.browser = browser;
     }
 
-    public String getGridUrl() {
-        return gridUrl;
-    }
 }
