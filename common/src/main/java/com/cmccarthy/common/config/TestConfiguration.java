@@ -55,7 +55,7 @@ public class TestConfiguration {
     }
 
     public static class UiConfig {
-        private boolean headless = false;
+        private boolean headless = true;
         private int implicitWait = 10;
         private int pageLoadTimeout = 30;
         private String windowSize = "1920x1080";
