@@ -90,7 +90,6 @@ public class DriverManager {
             }
             case ("firefox") -> {
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
-                firefoxOptions.setCapability("marionette", true);
                 if (isHeadless) {
                     firefoxOptions.addArguments("--headless");
                 }
