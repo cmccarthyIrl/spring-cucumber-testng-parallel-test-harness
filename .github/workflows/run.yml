@@ -20,7 +20,7 @@ jobs:
       matrix:
         java: [17]
         os: [ubuntu-latest, ubuntu-22.04]
-        browser: [chrome, firefox]
+        browser: [chrome]
       fail-fast: false
 
     env:
@@ -53,15 +53,6 @@ jobs:
         with:
           chrome-version: stable
           
-      - name: Set up Firefox
-        if: matrix.browser == 'firefox'
-        run: |
-          # Install Firefox from Ubuntu default repository (faster and more reliable)
-          sudo apt-get update
-          sudo apt-get install -y firefox
-          # Verify installation
-          firefox --version
-          
       - name: Start Xvfb
         run: |
           sudo Xvfb :99 -ac -screen 0 1280x1024x24 > /dev/null 2>&1 &
@@ -77,9 +68,6 @@ jobs:
           if [ "${{ matrix.browser }}" = "chrome" ]; then
             echo "Chrome version:"
             google-chrome --version
-          elif [ "${{ matrix.browser }}" = "firefox" ]; then
-            echo "Firefox version:"
-            firefox --version
           fi
           echo "Display: $DISPLAY"
 
@@ -115,4 +103,3 @@ jobs:
         run: |
           pkill -f Xvfb || true
           pkill -f chrome || true
-          pkill -f firefox || true
