@@ -17,6 +17,7 @@ import java.time.Duration;
 import java.util.NoSuchElementException;
 
 @Component
+@SuppressWarnings("unused")
 public class DriverWait {
 
     private static final ThreadLocal<Wait<WebDriver>> driverWaitThreadLocal = new ThreadLocal<>();

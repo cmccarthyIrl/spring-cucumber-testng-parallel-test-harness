@@ -14,6 +14,7 @@ import java.io.IOException;
 
 @CucumberContextConfiguration
 public class Hooks extends WikipediaAbstractTestDefinition {
+
     @Autowired
     private LogManager logManager;
     @Autowired
@@ -31,9 +32,6 @@ public class Hooks extends WikipediaAbstractTestDefinition {
     @After
     public void afterScenario(Scenario scenario) {
         hookUtil.endOfTest(scenario);
-        if (driverManager.getDriver() != null) {
-            driverManager.getDriver().quit();
-            driverManager.setDriver(null);
-        }
+        driverManager.quitDriver();
     }
 }

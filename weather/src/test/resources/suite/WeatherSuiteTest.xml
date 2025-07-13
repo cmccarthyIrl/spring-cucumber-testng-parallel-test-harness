@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Run-All-Tests">
+<suite name="Weather-Test-Suite" parallel="methods" thread-count="4" data-provider-thread-count="4">
 
-    <test name="Wikipedia-Suite-1">
+    <test name="Weather-API-Tests">
         <classes>
             <class name="com.cmccarthy.api.WeatherRunnerTest"/>
         </classes>

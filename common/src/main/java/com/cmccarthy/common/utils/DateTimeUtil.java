@@ -101,22 +101,15 @@ public class DateTimeUtil {
 
             final LocalDateTime date = LocalDateTime.now();
 
-            switch (switchType) {
-                case "Day +":
-                    return date.plusDays(dateValue).format(ISO_DATE_FORMAT_NO_TIME);
-                case "Day -":
-                    return date.minusDays(dateValue).format(ISO_DATE_FORMAT_NO_TIME);
-                case "Month +":
-                    return date.plusMonths(dateValue).format(ISO_DATE_FORMAT_NO_TIME);
-                case "Month -":
-                    return date.minusMonths(dateValue).format(ISO_DATE_FORMAT_NO_TIME);
-                case "Year +":
-                    return date.plusYears(dateValue).format(ISO_DATE_FORMAT_NO_TIME);
-                case "Year -":
-                    return date.minusYears(dateValue).format(ISO_DATE_FORMAT_NO_TIME);
-                default:
-                    return date.format(ISO_DATE_FORMAT_NO_TIME);
-            }
+            return switch (switchType) {
+                case "Day +" -> date.plusDays(dateValue).format(ISO_DATE_FORMAT_NO_TIME);
+                case "Day -" -> date.minusDays(dateValue).format(ISO_DATE_FORMAT_NO_TIME);
+                case "Month +" -> date.plusMonths(dateValue).format(ISO_DATE_FORMAT_NO_TIME);
+                case "Month -" -> date.minusMonths(dateValue).format(ISO_DATE_FORMAT_NO_TIME);
+                case "Year +" -> date.plusYears(dateValue).format(ISO_DATE_FORMAT_NO_TIME);
+                case "Year -" -> date.minusYears(dateValue).format(ISO_DATE_FORMAT_NO_TIME);
+                default -> date.format(ISO_DATE_FORMAT_NO_TIME);
+            };
         }
         return null;
     }
