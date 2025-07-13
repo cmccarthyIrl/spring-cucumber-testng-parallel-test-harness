@@ -15,9 +15,6 @@ import java.io.IOException;
 @CucumberContextConfiguration
 public class Hooks extends WikipediaAbstractTestDefinition {
     
-    private static boolean initialized = false;
-    private static final Object lock = new Object();
-    
     @Autowired
     private LogManager logManager;
     @Autowired

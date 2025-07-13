@@ -1,15 +1,33 @@
 package com.cmccarthy.common.utils;
 
+import java.security.SecureRandom;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
-import static org.apache.commons.lang3.RandomStringUtils.random;
 
 @SuppressWarnings("unused")
 public class StringUtil {
 
     private static final Random random = new Random();
+    private static final SecureRandom secureRandom = new SecureRandom();
+    private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private static final String NUMBERS = "0123456789";
+    private static final String ALPHANUMERIC = ALPHABET + NUMBERS;
+
+    /**
+     * Generates a random string from the given character set.
+     *
+     * @param length the length of the string to generate
+     * @param charset the character set to use
+     * @return a random string
+     */
+    private static String generateRandomString(int length, String charset) {
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append(charset.charAt(secureRandom.nextInt(charset.length())));
+        }
+        return sb.toString();
+    }
 
     public static boolean getRandomBoolean() {
         return random.nextBoolean();
@@ -24,27 +42,33 @@ public class StringUtil {
     }
 
     public static String getRandomAlphaString(int length) {
-        return random(length, true, false);
+        return generateRandomString(length, ALPHABET);
     }
 
     public static String getRandomAlphaString(int min, int max) {
-        return random(getRandomNumber(min, max), true, false);
+        return generateRandomString(getRandomNumber(min, max), ALPHABET);
     }
 
     public static String getRandomNumericString(int length, int min, int max) {
-        return random(length, min, max, false, true);
+        // Generate numeric string with values between min and max
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int digit = ThreadLocalRandom.current().nextInt(min, max + 1) % 10;
+            sb.append(digit);
+        }
+        return sb.toString();
     }
 
     public static String getRandomNumericString(int min, int max) {
-        return random(getRandomNumber(min, max), false, true);
+        return generateRandomString(getRandomNumber(min, max), NUMBERS);
     }
 
     public static String getRandomAlphaNumericString(int length) {
-        return random(length, true, true);
+        return generateRandomString(length, ALPHANUMERIC);
     }
 
     public static String getRandomAlphaNumericString(int min, int max) {
-        return random(getRandomNumber(min, max), true, true);
+        return generateRandomString(getRandomNumber(min, max), ALPHANUMERIC);
     }
 
     public static String getRandomAmount(String min, String max) {
