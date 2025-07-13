@@ -34,7 +34,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.0</version>
+        <version>3.5.3</version>
         <relativePath/>
     </parent>
 
@@ -43,7 +43,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>3.5.0</version>
+                <version>3.5.3</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -57,22 +57,22 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <json.version>20250517</json.version>
         <rest-assured.version>5.5.0</rest-assured.version>
-        <cucumber-java.version>7.22.0</cucumber-java.version>
-        <cucumber-spring.version>7.22.0</cucumber-spring.version>
-        <cucumber-testng.version>7.22.0</cucumber-testng.version>
-        <logback.version>1.5.13</logback.version>
+        <cucumber-java.version>7.25.0</cucumber-java.version>
+        <cucumber-spring.version>7.25.0</cucumber-spring.version>
+        <cucumber-testng.version>7.25.0</cucumber-testng.version>
+        <logback.version>1.5.18</logback.version>
         <gherkin.version>32.1.1</gherkin.version>
         <commons-io.version>2.15.1</commons-io.version>
-        <assertj-core.version>3.23.1</assertj-core.version>
+        <assertj-core.version>3.26.0</assertj-core.version>
         <extentreports-cucumber7-adapter.version>1.14.0</extentreports-cucumber7-adapter.version>
         <allure-cucumber7-jvm.version>2.29.1</allure-cucumber7-jvm.version>
         <selenium-java.version>4.33.0</selenium-java.version>
-        <maven-remote-resources-plugin.version>1.7.0</maven-remote-resources-plugin.version>
-        <maven.surefire.plugin.version>3.1.2</maven.surefire.plugin.version>
-        <surefire.testng.version>3.2.3</surefire.testng.version>
-        <jackson.version>2.18.2</jackson.version>
+        <maven-remote-resources-plugin.version>3.1.0</maven-remote-resources-plugin.version>
+        <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
+        <surefire.testng.version>3.3.2</surefire.testng.version>
+        <jackson.version>2.19.0</jackson.version>
         <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
-        <awaitility.version>4.2.2</awaitility.version>
+        <awaitility.version>4.3.0</awaitility.version>
     </properties>
 
     <dependencies>
