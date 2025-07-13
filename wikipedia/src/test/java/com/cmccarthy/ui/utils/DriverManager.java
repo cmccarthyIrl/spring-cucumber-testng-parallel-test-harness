@@ -145,20 +145,77 @@ public class DriverManager {
         options.addArguments("--disable-backgrounding-occluded-windows");
         options.addArguments("--disable-renderer-backgrounding");
         
-        // Create unique user data directory for parallel execution
-        String uniqueUserDataDir = System.getProperty("java.io.tmpdir") + 
-            "chrome_user_data_" + Thread.currentThread().getId() + "_" + System.currentTimeMillis();
+        // GitHub Actions / CI-specific arguments
+        options.addArguments("--disable-software-rasterizer");
+        options.addArguments("--disable-background-networking");
+        options.addArguments("--disable-default-apps");
+        options.addArguments("--disable-sync");
+        options.addArguments("--metrics-recording-only");
+        options.addArguments("--no-first-run");
+        options.addArguments("--safebrowsing-disable-auto-update");
+        options.addArguments("--disable-component-update");
+        options.addArguments("--disable-domain-reliability");
+        
+        // Detect CI environment and add additional arguments
+        boolean isCI = isRunningInCI();
+        if (isCI) {
+            log.info("Detected CI environment, applying additional Chrome arguments");
+            options.addArguments("--disable-features=MediaRouter");
+            options.addArguments("--disable-speech-api");
+            options.addArguments("--disable-file-system");
+            options.addArguments("--disable-presentation-api");
+            options.addArguments("--disable-permissions-api");
+            options.addArguments("--disable-new-profile-management");
+            options.addArguments("--disable-profile-shortcut-manager");
+        }
+        
+        // Create unique user data directory with proper path handling
+        String tempDir = System.getProperty("java.io.tmpdir");
+        if (tempDir == null || tempDir.isEmpty()) {
+            tempDir = "/tmp"; // Fallback for Unix-like systems including GitHub Actions
+        }
+        
+        // Ensure the temp directory ends with a separator
+        if (!tempDir.endsWith(System.getProperty("file.separator"))) {
+            tempDir += System.getProperty("file.separator");
+        }
+        
+        String uniqueUserDataDir = tempDir + "chrome_user_data_" + 
+            Thread.currentThread().getId() + "_" + System.currentTimeMillis();
+        
+        // Create the directory proactively to ensure it exists
+        try {
+            Path userDataPath = Paths.get(uniqueUserDataDir);
+            Files.createDirectories(userDataPath);
+            log.debug("Created Chrome user data directory: {}", uniqueUserDataDir);
+        } catch (IOException e) {
+            log.warn("Failed to create Chrome user data directory: {}", e.getMessage());
+            // Fallback to a simpler path if creation fails
+            uniqueUserDataDir = tempDir + "chrome_" + System.currentTimeMillis();
+        }
+        
         options.addArguments("--user-data-dir=" + uniqueUserDataDir);
         
         // Store the user data directory path for cleanup later
         userDataDirThreadLocal.set(uniqueUserDataDir);
         
+        // Additional CI/GitHub Actions specific arguments
+        options.addArguments("--disable-features=TranslateUI");
+        options.addArguments("--disable-ipc-flooding-protection");
+        options.addArguments("--disable-hang-monitor");
+        options.addArguments("--disable-prompt-on-repost");
+        options.addArguments("--disable-client-side-phishing-detection");
+        
         // Prevent Chrome from creating crash dumps
         options.addArguments("--disable-crash-reporter");
         options.addArguments("--disable-in-process-stack-traces");
+        options.addArguments("--disable-logging");
+        options.addArguments("--disable-dev-tools");
         
         if (isHeadlessMode()) {
             options.addArguments("--headless=new");
+            // Additional headless-specific arguments for CI
+            options.addArguments("--virtual-time-budget=1000");
         }
         
         if (testConfiguration != null) {
@@ -173,6 +230,8 @@ public class DriverManager {
         prefs.put("profile.default_content_setting_values.notifications", 2);
         prefs.put("profile.default_content_settings.popups", 0);
         prefs.put("profile.managed_default_content_settings.images", 2); // Block images for faster loading
+        prefs.put("profile.default_content_setting_values.geolocation", 2);
+        prefs.put("profile.default_content_setting_values.media_stream", 2);
         options.setExperimentalOption("prefs", prefs);
         
         // Additional performance settings
@@ -250,6 +309,17 @@ public class DriverManager {
         return Boolean.parseBoolean(System.getProperty("headless", "false")) ||
                Boolean.parseBoolean(System.getenv("HEADLESS")) ||
                Arrays.toString(this.environment.getActiveProfiles()).contains("headless");
+    }
+    
+    /**
+     * Detect if running in CI environment (GitHub Actions, Jenkins, etc.)
+     */
+    private boolean isRunningInCI() {
+        return System.getenv("CI") != null ||
+               System.getenv("GITHUB_ACTIONS") != null ||
+               System.getenv("JENKINS_URL") != null ||
+               System.getenv("BUILD_NUMBER") != null ||
+               System.getProperty("ci") != null;
     }
 
     public WebDriver getDriver() {
