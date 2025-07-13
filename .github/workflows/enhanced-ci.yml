@@ -2,9 +2,9 @@ name: Enhanced CI/CD Pipeline
 
 on:
   push:
-    branches: [ feature/wip ]
+    branches: [ "feature/wip" ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ "main", "develop" ]
 
 env:
   JAVA_VERSION: '17'
