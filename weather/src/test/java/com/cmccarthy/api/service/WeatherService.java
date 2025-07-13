@@ -22,7 +22,6 @@ public class WeatherService {
     private StepDefinitionDataManager stepDefinitionDataManager;
     @Autowired
     private ApplicationProperties applicationProperties;
-    private Response response;
 
     public void getWeatherForLocation(String location) {
 
