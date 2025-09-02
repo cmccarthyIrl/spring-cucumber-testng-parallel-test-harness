@@ -117,7 +117,7 @@ public class DriverWait {
     public Wait<WebDriver> waitShort() {
         return new FluentWait<>(driverManager.getDriver())
                 .withTimeout(Duration.ofSeconds(Constants.timeoutShort))
-                .pollingEvery(Duration.ofMillis(Constants.pollingShort))
+                .pollingEvery(Duration.ofMillis(Constants.POLLING_SHORT))
                 .ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
     }
 

@@ -49,7 +49,7 @@ Spring `<dependencies>`:
 
 ```xml
 
-<dependecies>
+<dependencies>
     ...
     <dependency>
         <groupId>org.springframework.amqp</groupId>
@@ -65,14 +65,14 @@ Spring `<dependencies>`:
         <artifactId>spring-test</artifactId>
     </dependency>
     ...
-</dependecies>
+</dependencies>
 ```
 
 Cucumber & Rest Assured `<dependencies>`:
 
 ```xml
 
-<dependecies>
+<dependencies>
     ...
     <dependency>
         <groupId>io.rest-assured</groupId>
@@ -95,14 +95,14 @@ Cucumber & Rest Assured `<dependencies>`:
         <version>${cucumber.version}</version>
     </dependency>
     ...
-</dependecies>
+</dependencies>
 ```
 
 Selenium `<dependencies>`:
 
 ```xml
 
-<dependecies>
+<dependencies>
     ...
     <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
@@ -115,7 +115,7 @@ Selenium `<dependencies>`:
         <version>${selenium-version}</version>
     </dependency>
     ...
-</dependecies>
+</dependencies>
 ```
 
 # Quickstart
@@ -126,7 +126,7 @@ Selenium `<dependencies>`:
 
 # TestNG
 
-By using the [TestNG Framework](https://junit.org/junit4/) we can utilize the [Cucumber Framework](https://cucumber.io/)
+By using the [TestNG Framework](https://testng.org/) we can utilize the [Cucumber Framework](https://cucumber.io/)
 and the `@CucumberOptions` Annotation Type to execute the `*.feature` file tests
 
 > Right click the `WikipediParallelRunner` class and select `Run`

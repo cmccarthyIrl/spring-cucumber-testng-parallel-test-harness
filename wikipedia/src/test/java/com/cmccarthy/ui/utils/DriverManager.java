@@ -122,7 +122,7 @@ public class DriverManager {
         driverWait.getDriverWaitThreadLocal()
                 .set(new WebDriverWait(driver,
                         Duration.ofSeconds(testConfig.getTimeoutSeconds()),
-                        Duration.ofMillis(Constants.pollingShort)));
+                        Duration.ofMillis(Constants.POLLING_SHORT)));
     }
 
     private void setRemoteDriver(URL hubUrl) {
@@ -174,7 +174,7 @@ public class DriverManager {
         driverWait.getDriverWaitThreadLocal()
                 .set(new WebDriverWait(driver,
                         Duration.ofSeconds(testConfig.getTimeoutSeconds()),
-                        Duration.ofMillis(Constants.pollingShort)));
+                        Duration.ofMillis(Constants.POLLING_SHORT)));
     }
 
     public WebDriver getDriver() {

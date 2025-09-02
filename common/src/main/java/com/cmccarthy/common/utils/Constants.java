@@ -1,13 +1,34 @@
 package com.cmccarthy.common.utils;
 
-public class Constants {
+/**
+ * Constants class containing timeout and polling values used throughout the test framework.
+ */
+public final class Constants {
 
-    public static final long timeoutLong = 30;
+    /**
+     * Long timeout duration in seconds for extended wait operations.
+     */
+    public static final long TIMEOUT_LONG = 30;
 
-    public static final long pollingLong = 200;
+    /**
+     * Long polling interval in milliseconds for extended wait operations.
+     */
+    public static final long POLLING_LONG = 200;
 
-    public static final long timeoutShort = 10;
+    /**
+     * Short timeout duration in seconds for quick wait operations.
+     */
+    public static final long TIMEOUT_SHORT = 10;
 
-    public static final long pollingShort = 100;
+    /**
+     * Short polling interval in milliseconds for quick wait operations.
+     */
+    public static final long POLLING_SHORT = 100;
 
+    /**
+     * Private constructor to prevent instantiation of this utility class.
+     */
+    private Constants() {
+        throw new AssertionError("Constants class should not be instantiated");
+    }
 }
