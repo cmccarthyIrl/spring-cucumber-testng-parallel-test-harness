@@ -109,14 +109,14 @@ public class DriverWait {
 
     public Wait<WebDriver> waitLong() {
         return new FluentWait<>(driverManager.getDriver())
-                .withTimeout(Duration.ofSeconds(Constants.timeoutLong))
-                .pollingEvery(Duration.ofMillis(Constants.pollingLong))
+                .withTimeout(Duration.ofSeconds(Constants.TIMEOUT_LONG))
+                .pollingEvery(Duration.ofMillis(Constants.POLLING_LONG))
                 .ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
     }
 
     public Wait<WebDriver> waitShort() {
         return new FluentWait<>(driverManager.getDriver())
-                .withTimeout(Duration.ofSeconds(Constants.timeoutShort))
+                .withTimeout(Duration.ofSeconds(Constants.TIMEOUT_SHORT))
                 .pollingEvery(Duration.ofMillis(Constants.POLLING_SHORT))
                 .ignoring(NoSuchElementException.class, StaleElementReferenceException.class);
     }

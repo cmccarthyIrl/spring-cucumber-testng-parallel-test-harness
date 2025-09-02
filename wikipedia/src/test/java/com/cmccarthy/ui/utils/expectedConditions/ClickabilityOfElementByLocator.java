@@ -21,7 +21,7 @@ public class ClickabilityOfElementByLocator implements ExpectedCondition<WebElem
     public WebElement apply(WebDriver webDriver) {
 
         final Wait<WebDriver> wait = new FluentWait<>(webDriver)
-                .withTimeout(Duration.ofSeconds(Constants.timeoutShort))
+                .withTimeout(Duration.ofSeconds(Constants.TIMEOUT_SHORT))
                 .pollingEvery(Duration.ofMillis(Constants.POLLING_SHORT))
                 .ignoring(java.util.NoSuchElementException.class,
                         StaleElementReferenceException.class);
