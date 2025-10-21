@@ -60,7 +60,7 @@
         <cucumber-java.version>7.25.0</cucumber-java.version>
         <cucumber-spring.version>7.25.0</cucumber-spring.version>
         <cucumber-testng.version>7.25.0</cucumber-testng.version>
-        <logback.version>1.5.18</logback.version>
+        <logback.version>1.5.19</logback.version>
         <gherkin.version>32.1.1</gherkin.version>
         <commons-io.version>2.15.1</commons-io.version>
         <assertj-core.version>3.26.0</assertj-core.version>
