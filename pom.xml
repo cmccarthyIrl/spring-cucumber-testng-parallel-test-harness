@@ -63,7 +63,7 @@
         <logback.version>1.5.18</logback.version>
         <gherkin.version>32.1.1</gherkin.version>
         <commons-io.version>2.15.1</commons-io.version>
-        <assertj-core.version>3.26.0</assertj-core.version>
+        <assertj-core.version>3.27.7</assertj-core.version>
         <extentreports-cucumber7-adapter.version>1.14.0</extentreports-cucumber7-adapter.version>
         <allure-cucumber7-jvm.version>2.29.1</allure-cucumber7-jvm.version>
         <selenium-java.version>4.33.0</selenium-java.version>
